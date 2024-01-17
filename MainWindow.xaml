@@ -72,24 +72,28 @@
 
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" ></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="600" ></ColumnDefinition>
+                    <ColumnDefinition ></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
 
                 <Grid x:Name="ConteneurPrincipal" >
 
 
-                    <StackPanel x:Name="SousConteneurPrincipal" Height="554" VerticalAlignment="Bottom"  >
-                        <loca:Mesbatiments x:Name="Mesbatiments" Visibility="Visible"  Width="480" Margin="10 0" />
-                        <loca:MesEtudiants x:Name="MesEtudiants" Visibility="Collapsed"  Width="480"/>
-                        <loca:MesPayements x:Name="MesPayements" Visibility="Collapsed" Width="480"/>
+                    <StackPanel x:Name="SousConteneurPrincipal" Height="600" VerticalAlignment="Center" Margin="0 -50 0 0"  >
+                        <loca:Mesbatiments x:Name="Mesbatiments" Visibility="Visible"  Width="Auto" Margin="10 0 0 0" />
+                        <loca:MesEtudiants x:Name="MesEtudiants" Visibility="Collapsed"  Width="Auto"/>
+                        <loca:MesPayements x:Name="MesPayements" Visibility="Collapsed" Width="Auto"/>
                     </StackPanel>
 
 
                 </Grid>
                 <Grid Grid.Column="1">
-                    <Border BorderBrush="#3C4048" BorderThickness=" 1, 0,0,0" Margin="10,-40,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="65*"/>
+                        <RowDefinition Height="212*"/>
+                    </Grid.RowDefinitions>
+                    <Border BorderBrush="#3C4048" BorderThickness=" 1, 0,0,0" Margin="0,-40,0,0" Grid.RowSpan="2">
                         <loca:MesChambres x:Name="MesChambres" Visibility="Collapsed"></loca:MesChambres>
                     </Border>
                 </Grid>

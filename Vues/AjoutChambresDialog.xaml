@@ -1,0 +1,74 @@
+﻿<Window x:Class="CiteU.Vues.AjoutChambresDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CiteU.Vues"
+        mc:Ignorable="d"
+        Title="AjoutChambresDialog" Height="400" Width="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Titre -->
+        <TextBlock Text="Repartition Chambres"
+           HorizontalAlignment="Center"
+           VerticalAlignment="Center"
+           FontSize="20"
+           FontWeight="Bold"
+           TextDecorations="Underline"
+           Margin="0,10,0,10"/>
+
+        <!-- Liste des étages -->
+        <ListBox Name="listBoxEtages" Grid.Row="1" Margin="5" d:ItemsSource="{d:SampleData ItemCount=5}" >
+            <ListBox.ItemTemplate >
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Libellé de l'étage -->
+                        <TextBlock Text="{Binding NumeroEtage, StringFormat='Etage {0}'}" FontWeight="Bold" Grid.ColumnSpan="2" FontSize="16"/>
+
+                        <!-- Saisie du nombre de chambres -->
+                        
+                            <Label Content="Nombre de chambre de cet étage:" Grid.Column="0" Grid.Row="1" FontSize="14"/>
+                            <TextBox Text="{Binding NombreChambre}" Width="40" Grid.Column="1" Grid.Row="1" FontSize="14" HorizontalContentAlignment="Right" Margin="5"/>
+                        
+
+                        <!-- Saisie du nombre de lits -->
+                        
+                            <Label Content="Nombre de lits des chambres de cet étage:" FontSize="14" Grid.Column="0" Grid.Row="2"/>
+                            <TextBox Text="{Binding NombreLits}" Width="40" FontSize="14" HorizontalContentAlignment="Right" Margin="5" Grid.Column="1" Grid.Row="2"/>
+                        
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <!-- Boutons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,20,0,0">
+            <Border BorderThickness="1" BorderBrush="#3C4048" Background="#3C4048" CornerRadius="10" Width="Auto" Height="30">
+                <Button Background="Transparent" BorderThickness="0" BorderBrush="White" Click="btnEnregistrer_Click">
+                    <TextBlock Text="Suivant" Margin="5" Foreground="White" FontSize="14"/>
+                </Button>
+            </Border>
+
+            <Border BorderThickness="1" BorderBrush="#3C4048" Background="#3C4048" CornerRadius="10" Margin="10,0,0,0" Width="Auto" Height="30">
+                <Button Background="Transparent" BorderThickness="0" BorderBrush="White" Click="btnAnnuler_Click">
+                    <TextBlock Text="Annuler" Margin="5" Foreground="White" FontSize="14"/>
+                </Button>
+            </Border>
+        </StackPanel>
+    </Grid>
+</Window>

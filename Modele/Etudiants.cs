@@ -25,7 +25,6 @@ namespace CiteU.Modele
         [StringLength(50)]
         public string Prenom { get; set; }
 
-        [Column(TypeName = "date")]
         public DateTime? Date_Naissance { get; set; }
 
         [StringLength(1)]

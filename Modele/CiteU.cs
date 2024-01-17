@@ -37,6 +37,11 @@ namespace CiteU.Modele
                 .Property(e => e.Statut)
                 .IsUnicode(false);
 
+            modelBuilder.Entity<Chambres>()
+                .HasMany(e => e.Lits)
+                .WithRequired(e => e.Chambres)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Etudiants>()
                 .Property(e => e.Nom)
                 .IsUnicode(false);
@@ -58,10 +63,6 @@ namespace CiteU.Modele
                 .Property(e => e.Email)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Lits>()
-                .Property(e => e.ID_Chambre)
-                .IsFixedLength();
-
             modelBuilder.Entity<Paiements>()
                 .Property(e => e.Montant)
                 .HasPrecision(10, 2);
@@ -73,6 +74,12 @@ namespace CiteU.Modele
             modelBuilder.Entity<Reservations>()
                 .Property(e => e.Statut_Paiement)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<Reservations>()
+                .HasMany(e => e.Lits)
+                .WithRequired(e => e.Reservations)
+                .HasForeignKey(e => e.Reservations_ID_Reservation)
+                .WillCascadeOnDelete(false);
         }
     }
 }

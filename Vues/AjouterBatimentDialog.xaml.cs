@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace CiteU.Vues
 {
@@ -44,13 +45,20 @@ namespace CiteU.Vues
             // Validez les entrées utilisateur et affectez les valeurs aux propriétés
             if (ValidateInputs())
             {
-                /*try
-                {*/
+                try
+                {
                     // Recherchez le dernier ID de bâtiment dans la base de données
                     int dernierIdBatiment;
                     using (var context = new CiteUContext())
                     {
+
                         dernierIdBatiment = context.Batiments.OrderByDescending(b => b.ID_Batiment).Select(b => b.ID_Batiment).FirstOrDefault();
+                        // Vérifiez si le nom du bâtiment existe déjà
+                        if (context.Batiments.Any(b => b.Nom_Batiment == txtNomBatiment.Text))
+                        {
+                            MessageBox.Show("Le nom du bâtiment existe déjà. Veuillez saisir un nom différent.", "Erreur de validation", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
                     }
 
                     // Incrémentez l'ID pour le nouveau bâtiment
@@ -75,18 +83,22 @@ namespace CiteU.Vues
                         context.SaveChanges();
                     }
 
-                    // Mettez à jour manuellement la liste des bâtiments dans le UserControl
-                    if (_mesBatiments != null)
-                    {
-                        _mesBatiments.ListOfBatiments.Add(nouveauBatiment);
-                    }
+                    AjoutChambresDialog ajoutChambresDialog = new AjoutChambresDialog();
+
+                    // Centrer la fenêtre par rapport à la fenêtre parente (this)
+                    ajoutChambresDialog.Owner = this;
+                    ajoutChambresDialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+
+                    ajoutChambresDialog.ShowDialog();
+                    
 
                     DialogResult = true; // Ferme la fenêtre avec un résultat positif
-                /*}
+                }
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Erreur lors de l'ajout du bâtiment : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
-                }*/
+                }
             }
         }
 
@@ -124,3 +136,4 @@ namespace CiteU.Vues
     }
 }
 
+    

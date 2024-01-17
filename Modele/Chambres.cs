@@ -11,7 +11,7 @@ namespace CiteU.Modele
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Chambres()
         {
-            Reservations = new HashSet<Reservations>();
+            Lits = new HashSet<Lits>();
         }
 
         [Key]
@@ -20,7 +20,9 @@ namespace CiteU.Modele
 
         public int? ID_Batiment { get; set; }
 
-        public int? Numero_Chambre { get; set; }
+        public string Nom_Chambre { get; set; }
+
+        public int? Numero_Batiment { get; set; }
 
         public int? Capacite { get; set; }
 
@@ -29,9 +31,11 @@ namespace CiteU.Modele
         [StringLength(20)]
         public string Statut { get; set; }
 
+        public int Numero_Chambre { get; set; }
+
         public virtual Batiments Batiments { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Reservations> Reservations { get; set; }
+        public virtual ICollection<Lits> Lits { get; set; }
     }
 }

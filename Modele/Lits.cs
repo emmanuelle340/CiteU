@@ -10,7 +10,12 @@ namespace CiteU.Modele
     {
         public int id { get; set; }
 
-        [StringLength(10)]
-        public string ID_Chambre { get; set; }
+        public int ChambresID_Chambre { get; set; }
+
+        public int Reservations_ID_Reservation { get; set; }
+
+        public virtual Chambres Chambres { get; set; }
+
+        public virtual Reservations Reservations { get; set; }
     }
 }

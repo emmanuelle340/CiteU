@@ -24,7 +24,6 @@ namespace CiteU.Modele
         [StringLength(255)]
         public string Adresse_Batiment { get; set; }
 
-        [Column(TypeName = "text")]
         public string Description_Batiment { get; set; }
 
         public int? Nombre_Etages { get; set; }

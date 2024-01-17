@@ -76,6 +76,9 @@
     <Compile Include="Modele\Lits.cs" />
     <Compile Include="Modele\Paiements.cs" />
     <Compile Include="Modele\Reservations.cs" />
+    <Compile Include="Vues\AjoutChambresDialog.xaml.cs">
+      <DependentUpon>AjoutChambresDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vues\AjouterBatimentDialog.xaml.cs">
       <DependentUpon>AjouterBatimentDialog.xaml</DependentUpon>
     </Compile>
@@ -103,6 +106,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Vues\AjoutChambresDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Vues\AjouterBatimentDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -151,5 +158,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -16,7 +16,6 @@ namespace CiteU.Modele
 
         public decimal? Montant { get; set; }
 
-        [Column(TypeName = "date")]
         public DateTime? Date_Paiement { get; set; }
 
         [StringLength(50)]
