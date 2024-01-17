@@ -16,7 +16,7 @@ namespace CiteU.Modele
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ID_Etudiant { get; set; }
 
         [StringLength(50)]

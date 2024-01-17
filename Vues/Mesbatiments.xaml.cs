@@ -1,4 +1,5 @@
 ﻿using CiteU.Modele;
+using CiteU;
 using CiteUContext = CiteU.Modele.CiteU;
 using System;
 using System.Collections.Generic;

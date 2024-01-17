@@ -9,7 +9,7 @@ namespace CiteU.Modele
     public partial class Paiements
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ID_Paiement { get; set; }
 
         public int? ID_Etudiant { get; set; }

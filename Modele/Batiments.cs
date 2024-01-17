@@ -15,7 +15,7 @@ namespace CiteU.Modele
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ID_Batiment { get; set; }
 
         [StringLength(100)]

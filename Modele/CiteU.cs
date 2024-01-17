@@ -15,6 +15,7 @@ namespace CiteU.Modele
         public virtual DbSet<Batiments> Batiments { get; set; }
         public virtual DbSet<Chambres> Chambres { get; set; }
         public virtual DbSet<Etudiants> Etudiants { get; set; }
+        public virtual DbSet<Lits> Lits { get; set; }
         public virtual DbSet<Paiements> Paiements { get; set; }
         public virtual DbSet<Reservations> Reservations { get; set; }
 
@@ -56,6 +57,10 @@ namespace CiteU.Modele
             modelBuilder.Entity<Etudiants>()
                 .Property(e => e.Email)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<Lits>()
+                .Property(e => e.ID_Chambre)
+                .IsFixedLength();
 
             modelBuilder.Entity<Paiements>()
                 .Property(e => e.Montant)

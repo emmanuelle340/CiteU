@@ -9,7 +9,7 @@ namespace CiteU.Modele
     public partial class Reservations
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ID_Reservation { get; set; }
 
         public int? ID_Etudiant { get; set; }

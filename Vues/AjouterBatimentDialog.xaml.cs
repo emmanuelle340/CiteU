@@ -45,10 +45,21 @@ namespace CiteU.Vues
             if (ValidateInputs())
             {
                 /*try
-                {
-                 */   // Créez un nouvel objet Batiments
+                {*/
+                    // Recherchez le dernier ID de bâtiment dans la base de données
+                    int dernierIdBatiment;
+                    using (var context = new CiteUContext())
+                    {
+                        dernierIdBatiment = context.Batiments.OrderByDescending(b => b.ID_Batiment).Select(b => b.ID_Batiment).FirstOrDefault();
+                    }
+
+                    // Incrémentez l'ID pour le nouveau bâtiment
+                    int nouvelIdBatiment = dernierIdBatiment + 1;
+
+                    // Créez un nouvel objet Batiments
                     Batiments nouveauBatiment = new Batiments
                     {
+                        ID_Batiment = nouvelIdBatiment,
                         Nom_Batiment = txtNomBatiment.Text,
                         Nombre_max_chambre = Convert.ToInt32(txtNombreChambres.Text),
                         Nombre_Etages = Convert.ToInt32(txtNombreEtages.Text),
@@ -63,9 +74,14 @@ namespace CiteU.Vues
                         // Enregistrez les modifications dans la base de données
                         context.SaveChanges();
                     }
-                // Mettez à jour manuellement la liste des bâtiments dans le UserControl
-                
-                DialogResult = true; // Ferme la fenêtre avec un résultat positif
+
+                    // Mettez à jour manuellement la liste des bâtiments dans le UserControl
+                    if (_mesBatiments != null)
+                    {
+                        _mesBatiments.ListOfBatiments.Add(nouveauBatiment);
+                    }
+
+                    DialogResult = true; // Ferme la fenêtre avec un résultat positif
                 /*}
                 catch (Exception ex)
                 {
