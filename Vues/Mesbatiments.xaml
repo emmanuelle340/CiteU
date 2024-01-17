@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="CiteU.Vues.Mesbatiments"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CiteU.Vues"
+             mc:Ignorable="d" 
+             Height="Auto"
+             Width="Auto">
+    <Grid Width="462">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition ></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!-- Barre de recherche -->
+        <StackPanel Orientation="Horizontal">
+            <TextBox Text="Rechercher..." Width="280" Height="30" VerticalAlignment="Center" Margin="0 " FontStyle="Italic"/>
+            <Button Content="Rechercher" Width="76" Height="30" VerticalAlignment="Center" Margin="20 0" Background="White"/>
+        </StackPanel>
+
+        <Border BorderThickness="1" BorderBrush="#3C4048" Background="#3C4048" CornerRadius="10" Grid.Row="1" HorizontalAlignment="Right" Width="Auto" Height="40">
+            <Button Background="Transparent" BorderThickness="0" BorderBrush="White" Click="AjouterBatiment_Click" >
+                <TextBlock Text="Ajouter un bâtiment" Margin="10" Foreground="White" />
+            </Button>
+        </Border>
+
+        <!-- Liste des bâtiments -->
+        <ItemsControl ItemsSource="{Binding Path=ListOfBatiments}" Grid.Row="2">
+            <!-- Se lie à votre liste de bâtiments -->
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderThickness="1" BorderBrush="#3C4048" CornerRadius="10" Margin="20 " Height="81" Width="Auto">
+                        <Button Width="Auto" Background="Transparent" BorderThickness="0" BorderBrush="White" >
+                            <StackPanel Width="450">
+                                <DockPanel Width="440">
+                                    <TextBlock Text="{Binding Nom_Batiment, StringFormat={} Batiment {0}}" FontSize="15" Width="Auto" FontWeight="Bold"/>
+
+                                    <TextBlock Text="{Binding Nombre_Chambres}" Width="288" TextAlignment="Right"/>
+                                </DockPanel>
+                                <TextBlock Text="salut" FontStyle="Italic"/>
+                                <DockPanel Width="440">
+                                    <TextBlock Text="{Binding Nombre_Etages, StringFormat= {}{0}étages}" FontWeight="Bold" TextAlignment="Right" Margin="0 0 30 0"/>
+
+                                </DockPanel>
+                            </StackPanel>
+                        </Button>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>

@@ -1,0 +1,46 @@
+﻿<!-- AjouterBatimentDialog.xaml -->
+<Window x:Class="CiteU.Vues.AjouterBatimentDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ajouter un bâtiment" Height="400" Width="500">
+    <Grid Margin="30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Nom du bâtiment:" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"/>
+        <TextBox x:Name="txtNomBatiment" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="150,0,0,0" Width="161" FontSize="14"/>
+
+        <Label Content="Nombre de chambres:" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"/>
+        <TextBox x:Name="txtNombreChambres" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="150,0,0,0" Width="161" FontSize="14"/>
+
+        <Label Content="Nombre d'étages:" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"/>
+        <TextBox x:Name="txtNombreEtages" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="150,0,0,0" Width="161" FontSize="14"/>
+
+
+        <Label Content="Adresse :" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"/>
+        <TextBox x:Name="txtAdresseBatiment" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="150,0,0,0" Width="161" FontSize="14"/>
+
+        <Label Content="Description :" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"/>
+        <TextBox x:Name="txtDescriptionBatiment" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="150,0,0,0" Width="161" FontSize="14"/>
+
+        <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="0,20,0,0">
+            <Border BorderThickness="1" BorderBrush="#3C4048" Background="#3C4048" CornerRadius="10" Width="Auto" Height="30">
+                <Button Background="Transparent" BorderThickness="0" BorderBrush="White" Click="btnEnregistrer_Click">
+                    <TextBlock Text="Suivant" Margin="5" Foreground="White" FontSize="14"/>
+                </Button>
+            </Border>
+
+            <Border BorderThickness="1" BorderBrush="#3C4048" Background="#3C4048" CornerRadius="10" Margin="10,0,0,0" Width="Auto" Height="30">
+                <Button Background="Transparent" BorderThickness="0" BorderBrush="White" Click="btnAnnuler_Click">
+                    <TextBlock Text="Annuler" Margin="5" Foreground="White" FontSize="14"/>
+                </Button>
+            </Border>
+        </StackPanel>
+    </Grid>
+</Window>
