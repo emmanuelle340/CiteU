@@ -41,6 +41,24 @@ namespace CiteU.Vues
 
         }
 
+
+        // Propriété de visibilité pour le nouveau UserControl
+        public Visibility NouveauUserControlVisibility
+        {
+            get { return (Visibility)GetValue(NouveauUserControlVisibilityProperty); }
+            set { SetValue(NouveauUserControlVisibilityProperty, value); }
+        }
+
+        public static readonly DependencyProperty NouveauUserControlVisibilityProperty =
+            DependencyProperty.Register("NouveauUserControlVisibility", typeof(Visibility), typeof(Mesbatiments), new PropertyMetadata(Visibility.Collapsed));
+
+        // Méthode pour changer la visibilité du nouveau UserControl
+        private void AfficherNouveauUserControl()
+        {
+            NouveauUserControlVisibility = Visibility.Visible;
+        }
+
+
         private void BoutonBatiment_Click(object sender, RoutedEventArgs e)
         {
             // Obtenir le bouton cliqué
@@ -55,12 +73,17 @@ namespace CiteU.Vues
                 string nomBatiment = modele.Nom_Batiment;
 
                 // Utiliser le nomBatiment comme vous le souhaitez
-                MessageBox.Show($"Nom du bâtiment cliqué : {nomBatiment}");
+                //MessageBox.Show($"Nom du bâtiment cliqué : {nomBatiment}");
+
+                // Rendre MesChambres visible
+                AfficherNouveauUserControl();
             }
 
         }
 
-            private void AjouterBatiment_Click(object sender, RoutedEventArgs e)
+
+
+        private void AjouterBatiment_Click(object sender, RoutedEventArgs e)
         {
             // Accéder à la fenêtre principale
             Window mainWindow = Window.GetWindow(this);
