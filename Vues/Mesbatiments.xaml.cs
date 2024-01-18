@@ -41,8 +41,26 @@ namespace CiteU.Vues
 
         }
 
+        private void BoutonBatiment_Click(object sender, RoutedEventArgs e)
+        {
+            // Obtenir le bouton cliqué
+            Button bouton = (Button)sender;
 
-        private void AjouterBatiment_Click(object sender, RoutedEventArgs e)
+            // Obtenir le DataContext du bouton (le modèle associé)
+            Batiments modele = bouton.DataContext as Batiments;
+
+            if (modele != null)
+            {
+                // Accéder à la propriété Nom_Batiment du modèle
+                string nomBatiment = modele.Nom_Batiment;
+
+                // Utiliser le nomBatiment comme vous le souhaitez
+                MessageBox.Show($"Nom du bâtiment cliqué : {nomBatiment}");
+            }
+
+        }
+
+            private void AjouterBatiment_Click(object sender, RoutedEventArgs e)
         {
             // Accéder à la fenêtre principale
             Window mainWindow = Window.GetWindow(this);

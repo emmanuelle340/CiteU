@@ -35,7 +35,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border BorderThickness="1" BorderBrush="#3C4048" CornerRadius="10" Margin="20 " Height="81" Width="Auto">
-                            <Button Width="Auto" Background="Transparent" BorderThickness="0" BorderBrush="White" >
+                            <Button Width="Auto" Background="Transparent" BorderThickness="0" BorderBrush="White" Click="BoutonBatiment_Click" >
                                 <StackPanel Width="450">
                                     <DockPanel Width="440">
                                         <TextBlock Text="{Binding Nom_Batiment, StringFormat={} Batiment {0}}" FontSize="15" Width="Auto" FontWeight="Bold"/>
