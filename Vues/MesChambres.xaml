@@ -20,12 +20,11 @@
             <Button Content="Rechercher" Width="76" Height="30" VerticalAlignment="Center" Margin="20 0" Background="White"/>
         </StackPanel>
 
-
         <!-- Ajout du ScrollViewer autour de l'ItemsControl -->
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Visible">
-            <!-- Liste des bâtiments -->
-            <ItemsControl ItemsSource="{Binding Path=ListOfBatiments}">
-                <!-- Se lie à votre liste de bâtiments -->
+            <!-- Liste des chambres -->
+            <ItemsControl ItemsSource="{Binding ListDeChambre}">
+                <!-- Se lie à votre liste de chambres -->
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border BorderThickness="1" BorderBrush="#3C4048" CornerRadius="10" Margin="20 " Height="81" Width="Auto">
@@ -33,7 +32,6 @@
                                 <StackPanel Width="450">
                                     <DockPanel Width="440">
                                         <TextBlock Text="{Binding Nom_Chambre, StringFormat={} Chambre {0}}" FontSize="15" Width="Auto" FontWeight="Bold"/>
-
                                         <TextBlock Text="{Binding Nombre_Chambres}" Width="288" TextAlignment="Right"/>
                                     </DockPanel>
                                     <TextBlock Text="salut" FontStyle="Italic"/>

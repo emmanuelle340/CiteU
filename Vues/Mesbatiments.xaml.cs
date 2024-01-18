@@ -26,8 +26,10 @@ namespace CiteU.Vues
     public partial class Mesbatiments : UserControl
     {
         public ObservableCollection<Batiments> ListOfBatiments { get; set; }
+        public string nomBatiment { get; set; }
 
-        
+        // Propriété statique pour stocker l'instance actuelle
+        public static Mesbatiments Instance { get; private set; }
         public Mesbatiments()
         {
             InitializeComponent();
@@ -35,7 +37,7 @@ namespace CiteU.Vues
             using (var context = new CiteUContext())  // Utilisez le nom de votre classe DbContext ici
             {
                 ListOfBatiments = new ObservableCollection<Batiments>(context.Batiments.ToList());
-                
+
             }
             DataContext = this;
 
@@ -71,16 +73,15 @@ namespace CiteU.Vues
             {
                 // Accéder à la propriété Nom_Batiment du modèle
                 string nomBatiment = modele.Nom_Batiment;
+                Instance = this;
 
-                // Utiliser le nomBatiment comme vous le souhaitez
-                //MessageBox.Show($"Nom du bâtiment cliqué : {nomBatiment}");
+                // Passer la valeur de nomBatiment lors de la création de l'instance de MesChambres
+                MesChambres mesChambres = new MesChambres(nomBatiment);
 
                 // Rendre MesChambres visible
                 AfficherNouveauUserControl();
             }
-
         }
-
 
 
         private void AjouterBatiment_Click(object sender, RoutedEventArgs e)
@@ -113,10 +114,6 @@ namespace CiteU.Vues
                 // Afficher la boîte de dialogue
                 dialog.ShowDialog();
             }
-
-
         }
-
-        
     }
 }
