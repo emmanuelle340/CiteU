@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CiteU.Vues"
+            
              mc:Ignorable="d" 
              Height="Auto"
              Width="Auto">
@@ -39,9 +40,10 @@
                                     <DockPanel Width="440">
                                         <TextBlock Text="{Binding Nom_Batiment, StringFormat={} Batiment {0}}" FontSize="15" Width="Auto" FontWeight="Bold"/>
 
-                                        <TextBlock Text="{Binding Nombre_Chambres}" Width="288" TextAlignment="Right"/>
+                                        <TextBlock Text="{Binding Nombre_max_chambre, StringFormat={}{0}Chambre(s)}" Width="288" TextAlignment="Right"/>
                                     </DockPanel>
-                                    <TextBlock Text="salut" FontStyle="Italic"/>
+                                    <TextBlock Text="{Binding NombreChambresVides, StringFormat= {}{0} chambres vides}" Width="288" TextAlignment="Left" HorizontalAlignment="Left"/>
+                                    <TextBlock Text="{Binding NombreChambresOccupees, StringFormat= {}{0} chambres occupées}" Width="288" TextAlignment="Left"/>
                                     <DockPanel Width="440">
                                         <TextBlock Text="{Binding Nombre_Etages, StringFormat= {}{0}étages}" FontWeight="Bold" TextAlignment="Right" Margin="0 0 30 0"/>
                                     </DockPanel>

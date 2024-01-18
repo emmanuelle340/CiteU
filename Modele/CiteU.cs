@@ -77,9 +77,8 @@ namespace CiteU.Modele
 
             modelBuilder.Entity<Reservations>()
                 .HasMany(e => e.Lits)
-                .WithRequired(e => e.Reservations)
-                .HasForeignKey(e => e.Reservations_ID_Reservation)
-                .WillCascadeOnDelete(false);
+                .WithOptional(e => e.Reservations)
+                .HasForeignKey(e => e.Reservations_ID_Reservation);
         }
     }
 }

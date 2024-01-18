@@ -71,7 +71,8 @@ namespace CiteU.Vues
                         Nom_Batiment = txtNomBatiment.Text,
                         Nombre_max_chambre = Convert.ToInt32(txtNombreChambres.Text),
                         Nombre_Etages = Convert.ToInt32(txtNombreEtages.Text),
-                        // Ajoutez les autres propriétés selon votre modèle
+                        Description_Batiment=txtDescriptionBatiment.Text,
+                        Adresse_Batiment=txtAdresseBatiment.Text,
                     };
 
                     // Ajoutez le nouvel objet à la base de données
@@ -117,6 +118,7 @@ namespace CiteU.Vues
                 MessageBox.Show("Veuillez remplir tous les champs obligatoires.", "Erreur de validation", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
+            
 
             // Vérifiez si les valeurs pour txtNombreChambres et txtNombreEtages sont des entiers
             int nombreChambres;
@@ -128,7 +130,27 @@ namespace CiteU.Vues
                 return false;
             }
 
-            // Vous pouvez ajouter d'autres validations selon vos besoins
+            // Vérifiez que le nombre de chambres est supérieur à 0
+            if (nombreChambres <= 0)
+            {
+                MessageBox.Show("Le nombre de chambres doit être supérieur à zéro.", "Erreur de validation", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            // Vérifiez que le nombre d'étages est supérieur à 0
+            if (nombreEtages <= 0)
+            {
+                MessageBox.Show("Le nombre d'étages doit être supérieur à zéro.", "Erreur de validation", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            // Vérifiez que le nombre d'étages est inférieur ou égal au nombre de chambres
+            if (nombreEtages >= nombreChambres)
+            {
+                MessageBox.Show("Le nombre d'étages doit être inférieur au nombre de chambres.", "Erreur de validation", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
 
             return true;
         }

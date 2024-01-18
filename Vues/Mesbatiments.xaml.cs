@@ -27,6 +27,7 @@ namespace CiteU.Vues
     {
         public ObservableCollection<Batiments> ListOfBatiments { get; set; }
 
+        
         public Mesbatiments()
         {
             InitializeComponent();
@@ -34,11 +35,12 @@ namespace CiteU.Vues
             using (var context = new CiteUContext())  // Utilisez le nom de votre classe DbContext ici
             {
                 ListOfBatiments = new ObservableCollection<Batiments>(context.Batiments.ToList());
+                
             }
-
-            // Définissez le contexte de données pour votre UserControl
             DataContext = this;
+
         }
+
 
         private void AjouterBatiment_Click(object sender, RoutedEventArgs e)
         {
@@ -70,9 +72,10 @@ namespace CiteU.Vues
                 // Afficher la boîte de dialogue
                 dialog.ShowDialog();
             }
+
+
         }
 
         
-
     }
 }

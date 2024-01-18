@@ -15,7 +15,6 @@ namespace CiteU.Modele
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ID_Chambre { get; set; }
 
         public int? ID_Batiment { get; set; }

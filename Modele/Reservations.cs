@@ -15,7 +15,6 @@ namespace CiteU.Modele
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ID_Reservation { get; set; }
 
         public int? ID_Etudiant { get; set; }
