@@ -27,6 +27,8 @@ namespace CiteU.Vues
     {
         public ObservableCollection<Batiments> ListOfBatiments { get; set; }
         public string nomBatiment { get; set; }
+        public ObservableCollection<Chambres> ListDeChambre { get; set; }
+        public ObservableCollection<Chambres> _ListDeChambre { get; set; }
 
         // Propriété statique pour stocker l'instance actuelle
         public static Mesbatiments Instance { get; private set; }
@@ -76,7 +78,9 @@ namespace CiteU.Vues
                 Instance = this;
 
                 // Passer la valeur de nomBatiment lors de la création de l'instance de MesChambres
-                MesChambres mesChambres = new MesChambres(nomBatiment);
+                MesChambres mesChambres = new MesChambres();
+                _ListDeChambre = ListDeChambre;
+                DataContext= this;
 
                 // Rendre MesChambres visible
                 AfficherNouveauUserControl();

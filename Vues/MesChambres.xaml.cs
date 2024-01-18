@@ -2,43 +2,36 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using CiteUContext = CiteU.Modele.CiteU;
-using System.Windows;
 using System.Windows.Controls;
+using System.Windows;
 
 namespace CiteU.Vues
 {
     public partial class MesChambres : UserControl
     {
-        // Nouvelle propriété pour les chambres du bâtiment sélectionné
-        public ObservableCollection<Chambres> ListDeChambre { get; set; }
+        // Utilisez une propriété de dépendance pour ListDeChambre
+        public ObservableCollection<Chambres> ListDeChambre
+        {
+            get { return (ObservableCollection<Chambres>)GetValue(ListDeChambreProperty); }
+            set { SetValue(ListDeChambreProperty, value); }
+        }
+
+        public static readonly DependencyProperty ListDeChambreProperty =
+            DependencyProperty.Register("ListDeChambre", typeof(ObservableCollection<Chambres>), typeof(MesChambres));
 
         public MesChambres()
         {
             InitializeComponent();
-
-
+            LoadData();
+            DataContext = this;
         }
 
-        public MesChambres(string nomBatiment)
+        private void LoadData()
         {
-            InitializeComponent();
-
-            // Utiliser la valeur de nomBatiment
-            MessageBox.Show("Nom du bâtiment dans MesChambres : " + nomBatiment, "Message", MessageBoxButton.OK, MessageBoxImage.Information);
-
             using (var context = new CiteUContext())
             {
-                var batiment = context.Batiments.FirstOrDefault(b => b.Nom_Batiment == nomBatiment);
-
-                if (batiment != null)
-                {
-                    // Récupération de la liste des chambres pour le bâtiment trouvé
-                    ListDeChambre = new ObservableCollection<Chambres>(context.Chambres.Where(c => c.ID_Batiment == batiment.ID_Batiment).ToList());
-                    DataContext = this;
-
-                    if (ListDeChambre != null && ListDeChambre.Count > 0)
-                        MessageBox.Show("Nom de la première chambre : " + ListDeChambre[0].Nom_Chambre, "Message", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
+                // Logique pour charger les données
+                ListDeChambre = new ObservableCollection<Chambres>(context.Chambres.ToList());
             }
         }
     }

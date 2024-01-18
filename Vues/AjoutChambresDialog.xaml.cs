@@ -112,10 +112,10 @@ namespace CiteU.Vues
                         // Créer un nouvel objet Chambres
                         Chambres nouvelleChambre = new Chambres
                         {
-                           
+
                             ID_Batiment = dernierIdBatiment,
                             Nom_Chambre = $"{batiment.Nom_Batiment}-{chambre.NumeroEtage}-{i}",
-                          
+                            Capacite = chambre.NombreLits,
                             Etage = chambre.NumeroEtage,
                             Statut = "Disponible",
                             Numero_Chambre = chambre.NombreChambre // Vous pouvez ajuster cela en fonction de vos besoins

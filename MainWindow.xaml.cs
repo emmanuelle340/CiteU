@@ -26,6 +26,7 @@ namespace CiteU
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         private void btnHome_Click(object sender, RoutedEventArgs e)

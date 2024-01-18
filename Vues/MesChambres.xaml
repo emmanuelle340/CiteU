@@ -22,19 +22,21 @@
 
         <!-- Ajout du ScrollViewer autour de l'ItemsControl -->
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Visible">
-            <!-- Liste des chambres -->
-            <ItemsControl ItemsSource="{Binding ListDeChambre}">
-                <!-- Se lie à votre liste de chambres -->
+            <!-- Liste des bâtiments -->
+            <ItemsControl ItemsSource="{Binding ListDeChambre, RelativeSource={RelativeSource AncestorType={x:Type local:MesChambres}}}">
+                <!-- Se lie à votre liste de bâtiments -->
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border BorderThickness="1" BorderBrush="#3C4048" CornerRadius="10" Margin="20 " Height="81" Width="Auto">
-                            <Button Width="Auto" Background="Transparent" BorderThickness="0" BorderBrush="White" >
+                            <Button Width="Auto" Background="Transparent" BorderThickness="0" BorderBrush="White"  >
                                 <StackPanel Width="450">
                                     <DockPanel Width="440">
-                                        <TextBlock Text="{Binding Nom_Chambre, StringFormat={} Chambre {0}}" FontSize="15" Width="Auto" FontWeight="Bold"/>
-                                        <TextBlock Text="{Binding Nombre_Chambres}" Width="288" TextAlignment="Right"/>
+                                        <TextBlock Text="{Binding Nom_Chambre, StringFormat={} Batiment {0}}" FontSize="15" Width="Auto" FontWeight="Bold"/>
+
+                                        <TextBlock Text="{Binding Nombre_max_chambre, StringFormat={}{0}Chambre(s)}" Width="288" TextAlignment="Right"/>
                                     </DockPanel>
-                                    <TextBlock Text="salut" FontStyle="Italic"/>
+                                    <TextBlock Text="{Binding NombreChambresVides, StringFormat= {}{0} chambres vides}" Width="288" TextAlignment="Left" HorizontalAlignment="Left" Margin="0 0"/>
+                                    <TextBlock Text="{Binding NombreChambresOccupees, StringFormat= {}{0} chambres occupées}" Width="288" TextAlignment="Left" HorizontalAlignment="Left" Margin=" 0"/>
                                     <DockPanel Width="440">
                                         <TextBlock Text="{Binding Nombre_Etages, StringFormat= {}{0}étages}" FontWeight="Bold" TextAlignment="Right" Margin="0 0 30 0"/>
                                     </DockPanel>
@@ -45,5 +47,7 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
+
+
     </Grid>
 </UserControl>
