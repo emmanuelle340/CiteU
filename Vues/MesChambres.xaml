@@ -9,36 +9,42 @@
              Height="Auto">
     <Grid Width="500" Margin="0 20">
         <Grid.RowDefinitions>
+            <RowDefinition Height="100"></RowDefinition>
             <RowDefinition Height="60"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition ></RowDefinition>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <!-- Barre de recherche -->
-        <StackPanel Orientation="Horizontal" Margin="0 10">
+        <TextBlock Text="LES CHAMBRES" FontSize="34" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+
+        <StackPanel Orientation="Horizontal" Margin="0 10" Grid.Row="1">
             <TextBox Text="Rechercher..." Width="280" Height="30" VerticalAlignment="Center" Margin="0 " FontStyle="Italic"/>
             <Button Content="Rechercher" Width="76" Height="30" VerticalAlignment="Center" Margin="20 0" Background="White"/>
         </StackPanel>
 
-        <!-- Ajout du ScrollViewer autour de l'ItemsControl -->
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Visible">
-            <!-- Liste des bâtiments -->
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Grid.Row="2">
+            <StackPanel Orientation="Horizontal" Margin="0" x:Name="MonStackPanel"></StackPanel>
+        </ScrollViewer>
+
+       <!-- <StackPanel Orientation="Horizontal" Margin="0" x:Name="MonStack">
+            <CheckBox Content="Disponibles" Checked="Filter_Checked" Unchecked="Filter_Unchecked" Margin="10"/>
+            <CheckBox Content="Occupées" Checked="Filter_Checked" Unchecked="Filter_Unchecked" Margin="10"/>
+        </StackPanel> -->
+
+        <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Visible">
             <ItemsControl ItemsSource="{Binding ListDeChambre, RelativeSource={RelativeSource AncestorType={x:Type local:MesChambres}}}">
-                <!-- Se lie à votre liste de bâtiments -->
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border BorderThickness="1" BorderBrush="#3C4048" CornerRadius="10" Margin="20 " Height="81" Width="Auto">
-                            <Button Width="Auto" Background="Transparent" BorderThickness="0" BorderBrush="White"  >
+                            <Button Width="Auto" Background="Transparent" BorderThickness="0" BorderBrush="White" Click="InfoChambres">
                                 <StackPanel Width="450">
                                     <DockPanel Width="440">
-                                        <TextBlock Text="{Binding Nom_Chambre, StringFormat={} Batiment {0}}" FontSize="15" Width="Auto" FontWeight="Bold"/>
-
-                                        <TextBlock Text="{Binding Nombre_max_chambre, StringFormat={}{0}Chambre(s)}" Width="288" TextAlignment="Right"/>
+                                        <TextBlock Text="{Binding Nom_Chambre, StringFormat={} Chambre {0}}" FontSize="15" Width="Auto" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Statut, StringFormat={} Statut: {0}}" Width="288" TextAlignment="Right"/>
                                     </DockPanel>
-                                    <TextBlock Text="{Binding NombreChambresVides, StringFormat= {}{0} chambres vides}" Width="288" TextAlignment="Left" HorizontalAlignment="Left" Margin="0 0"/>
-                                    <TextBlock Text="{Binding NombreChambresOccupees, StringFormat= {}{0} chambres occupées}" Width="288" TextAlignment="Left" HorizontalAlignment="Left" Margin=" 0"/>
+                                    <TextBlock Text="{Binding Capacite, StringFormat= {}{0} Lit(s)}" Width="288" TextAlignment="Left" HorizontalAlignment="Left" Margin="0"/>
                                     <DockPanel Width="440">
-                                        <TextBlock Text="{Binding Nombre_Etages, StringFormat= {}{0}étages}" FontWeight="Bold" TextAlignment="Right" Margin="0 0 30 0"/>
+                                        <TextBlock Text="{Binding Etage, StringFormat= {}{0}er étage}" FontWeight="Bold" TextAlignment="Right" Margin="0 0 30 0"/>
                                     </DockPanel>
                                 </StackPanel>
                             </Button>
@@ -47,7 +53,5 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-
-
     </Grid>
 </UserControl>

@@ -58,11 +58,12 @@ namespace CiteU.Vues
                 // Valider et enregistrer les données des chambres
                 if (ValiderEtEnregistrerDonnees())
                 {
-                    // Données validées et enregistrées avec succès
 
-                    // TODO: Ajouter le code pour enregistrer les données des chambres dans la base de données
+                
 
-                    MessageBox.Show("Données des chambres enregistrées avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                // TODO: Ajouter le code pour enregistrer les données des chambres dans la base de données
+
+                MessageBox.Show("Données des chambres enregistrées avec succès !", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     // Fermer la boîte de dialogue ou effectuer d'autres actions selon les besoins
                     this.Close();
@@ -78,6 +79,7 @@ namespace CiteU.Vues
                 MessageBox.Show($"Erreur : {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }*/
         }
+ 
 
         private bool ValiderEtEnregistrerDonnees()
         {

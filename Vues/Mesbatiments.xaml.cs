@@ -27,11 +27,7 @@ namespace CiteU.Vues
     {
         public ObservableCollection<Batiments> ListOfBatiments { get; set; }
         public string nomBatiment { get; set; }
-        public ObservableCollection<Chambres> ListDeChambre { get; set; }
-        public ObservableCollection<Chambres> _ListDeChambre { get; set; }
 
-        // Propriété statique pour stocker l'instance actuelle
-        public static Mesbatiments Instance { get; private set; }
         public Mesbatiments()
         {
             InitializeComponent();
@@ -63,29 +59,7 @@ namespace CiteU.Vues
         }
 
 
-        private void BoutonBatiment_Click(object sender, RoutedEventArgs e)
-        {
-            // Obtenir le bouton cliqué
-            Button bouton = (Button)sender;
-
-            // Obtenir le DataContext du bouton (le modèle associé)
-            Batiments modele = bouton.DataContext as Batiments;
-
-            if (modele != null)
-            {
-                // Accéder à la propriété Nom_Batiment du modèle
-                string nomBatiment = modele.Nom_Batiment;
-                Instance = this;
-
-                // Passer la valeur de nomBatiment lors de la création de l'instance de MesChambres
-                MesChambres mesChambres = new MesChambres();
-                _ListDeChambre = ListDeChambre;
-                DataContext= this;
-
-                // Rendre MesChambres visible
-                AfficherNouveauUserControl();
-            }
-        }
+       
 
 
         private void AjouterBatiment_Click(object sender, RoutedEventArgs e)

@@ -95,7 +95,7 @@
                         <RowDefinition Height="212*"/>
                     </Grid.RowDefinitions>
                     <Border BorderBrush="#3C4048" BorderThickness=" 1, 0,0,0" Margin="0,-40,0,0" Grid.RowSpan="2">
-                        <loca:MesChambres x:Name="MesChambres" Visibility="{Binding NouveauUserControlVisibility, ElementName=Mesbatiments}"  />
+                        <loca:MesChambres x:Name="MesChambres" Visibility="Visible"  />
                     </Border>
                 </Grid>
 

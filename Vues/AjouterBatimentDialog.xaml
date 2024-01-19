@@ -2,7 +2,10 @@
 <Window x:Class="CiteU.Vues.AjouterBatimentDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Ajouter un bâtiment" Height="400" Width="500">
+        Title="Ajouter un bâtiment"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        Height="400" Width="500">
     <Grid Margin="30">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

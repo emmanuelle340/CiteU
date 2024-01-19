@@ -4,48 +4,47 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CiteU.Vues"
-            
              mc:Ignorable="d" 
              Height="Auto"
              Width="Auto">
-    <Grid Width="500" Margin="0 20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="60"></RowDefinition>
-            <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition ></RowDefinition>
-        </Grid.RowDefinitions>
+    
+        <Grid Width="500" Margin="0 20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="120"></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="320"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Text="LES BATIMENTS" FontSize="34" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+            <!-- Barre de recherche -->
+            <StackPanel Orientation="Horizontal" Margin="0 10" Grid.Row="1">
+                <TextBox Text="Rechercher..." Width="280" Height="30" VerticalAlignment="Center" Margin="0 " FontStyle="Italic"/>
+                <Button Content="Rechercher" Width="76" Height="30" VerticalAlignment="Center" Margin="20 0" Background="White"/>
+            </StackPanel>
 
-        <!-- Barre de recherche -->
-        <StackPanel Orientation="Horizontal" Margin="0 10">
-            <TextBox Text="Rechercher..." Width="280" Height="30" VerticalAlignment="Center" Margin="0 " FontStyle="Italic"/>
-            <Button Content="Rechercher" Width="76" Height="30" VerticalAlignment="Center" Margin="20 0" Background="White"/>
-        </StackPanel>
-
-        <Border BorderThickness="1" BorderBrush="#3C4048" Background="#3C4048" CornerRadius="10" Grid.Row="1" HorizontalAlignment="Right" Width="Auto" Height="40">
-            <Button Background="Transparent" BorderThickness="0" BorderBrush="White" Click="AjouterBatiment_Click" >
-                <TextBlock Text="Ajouter un bâtiment" Margin="10" Foreground="White" />
-            </Button>
-        </Border>
-
-        <!-- Ajout du ScrollViewer autour de l'ItemsControl -->
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Visible">
+            <Border BorderThickness="1" BorderBrush="#3C4048" Background="#3C4048" CornerRadius="10" Grid.Row="2" HorizontalAlignment="Right" Width="Auto" Height="40">
+                <Button Background="Transparent" BorderThickness="0" BorderBrush="White" Click="AjouterBatiment_Click">
+                    <TextBlock Text="Ajouter un bâtiment" Margin="10" Foreground="White" />
+                </Button>
+            </Border>
+        <ScrollViewer Grid.Row="3">
             <!-- Liste des bâtiments -->
-            <ItemsControl ItemsSource="{Binding Path=ListOfBatiments}">
+            <ItemsControl  ItemsSource="{Binding Path=ListOfBatiments}">
                 <!-- Se lie à votre liste de bâtiments -->
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderThickness="1" BorderBrush="#3C4048" CornerRadius="10" Margin="20 " Height="81" Width="Auto">
-                            <Button Width="Auto" Background="Transparent" BorderThickness="0" BorderBrush="White" Click="BoutonBatiment_Click" >
+                        <Border BorderThickness="1" BorderBrush="#3C4048" CornerRadius="10" Margin="20" Height="81" Width="Auto">
+                            <Button Width="Auto" Background="Transparent" BorderThickness="0" BorderBrush="White">
                                 <StackPanel Width="450">
                                     <DockPanel Width="440">
-                                        <TextBlock Text="{Binding Nom_Batiment, StringFormat={} Batiment {0}}" FontSize="15" Width="Auto" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Nom_Batiment, StringFormat={} Batiment {0}}" FontSize="15" Width="Auto" FontWeight="Bold" />
 
-                                        <TextBlock Text="{Binding Nombre_max_chambre, StringFormat={}{0}Chambre(s)}" Width="288" TextAlignment="Right"/>
+                                        <TextBlock Text="{Binding Nombre_max_chambre, StringFormat={}{0}Chambre(s)}" Width="288" TextAlignment="Right" />
                                     </DockPanel>
-                                    <TextBlock Text="{Binding NombreChambresVides, StringFormat= {}{0} chambres vides}" Width="288" TextAlignment="Left" HorizontalAlignment="Left" Margin="0 0"/>
-                                    <TextBlock Text="{Binding NombreChambresOccupees, StringFormat= {}{0} chambres occupées}" Width="288" TextAlignment="Left" HorizontalAlignment="Left" Margin=" 0"/>
+                                    <TextBlock Text="{Binding NombreChambresVides, StringFormat= {}{0} chambres vides}" Width="288" TextAlignment="Left" HorizontalAlignment="Left" Margin="0 0" />
+                                    <TextBlock Text="{Binding NombreChambresOccupees, StringFormat= {}{0} chambres occupées}" Width="288" TextAlignment="Left" HorizontalAlignment="Left" Margin="0" />
                                     <DockPanel Width="440">
-                                        <TextBlock Text="{Binding Nombre_Etages, StringFormat= {}{0}étages}" FontWeight="Bold" TextAlignment="Right" Margin="0 0 30 0"/>
+                                        <TextBlock Text="{Binding Nombre_Etages, StringFormat= {}{0}étages}" FontWeight="Bold" TextAlignment="Right" Margin="0 0 30 0" />
                                     </DockPanel>
                                 </StackPanel>
                             </Button>
@@ -55,4 +54,5 @@
             </ItemsControl>
         </ScrollViewer>
     </Grid>
+    
 </UserControl>
