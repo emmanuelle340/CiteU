@@ -89,7 +89,7 @@
 
 
                 </Grid>
-                <Grid Grid.Column="1">
+                <Grid Grid.Column="1" x:Name="GridDroite" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="65*"/>
                         <RowDefinition Height="212*"/>
@@ -97,10 +97,9 @@
                     <Border BorderBrush="#3C4048" BorderThickness=" 1, 0,0,0" Margin="0,-40,0,0" Grid.RowSpan="2">
                         <loca:MesChambres x:Name="MesChambres" Visibility="Visible"  />
                     </Border>
+                    <ContentControl x:Name="contentControl" Content="{Binding Path=YourEtudiansDetails}" />
+
                 </Grid>
-
-
-
 
             </Grid>
 

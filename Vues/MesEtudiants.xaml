@@ -27,7 +27,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border BorderThickness="1" BorderBrush="#3C4048" CornerRadius="10" Margin="20" Height="120" Width="Auto">
-                            <Button Width="Auto" Background="Transparent" BorderThickness="0" BorderBrush="White" >
+                            <Button  Width="Auto" Background="Transparent" BorderThickness="0" BorderBrush="White" Click="Button_Click" >
                                 <StackPanel Width="450">
                                     <DockPanel Width="440">
                                         <TextBlock Text="{Binding Nom, StringFormat={} {0}}" FontSize="15" Width="Auto" FontWeight="Bold" />

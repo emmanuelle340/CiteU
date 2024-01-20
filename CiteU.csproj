@@ -100,6 +100,9 @@
     <Compile Include="Vues\DetailsBatiment.xaml.cs">
       <DependentUpon>DetailsBatiment.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vues\EtudiansDetails.xaml.cs">
+      <DependentUpon>EtudiansDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vues\Mesbatiments.xaml.cs">
       <DependentUpon>Mesbatiments.xaml</DependentUpon>
     </Compile>
@@ -139,6 +142,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Vues\DetailsBatiment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vues\EtudiansDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

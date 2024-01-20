@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Effects;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 using CiteUContext =CiteU.Modele.CiteU;
 
 namespace CiteU.Vues
@@ -87,7 +89,7 @@ namespace CiteU.Vues
                     }
                 }
 
-                MessageBox.Show("Importation réussie", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Vous venez d'importer 3 nouveaux etudiants ", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
@@ -101,5 +103,44 @@ namespace CiteU.Vues
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Etudiants selectedEtudiant = (sender as FrameworkElement)?.DataContext as Etudiants;
+
+            if (selectedEtudiant != null)
+            {
+                EtudiansDetails etudiantsDetailsWindow = new EtudiansDetails(selectedEtudiant);
+
+                Window mainWindow = Window.GetWindow(this);
+
+                
+                    // Définir la fenêtre principale comme propriétaire de la boîte de dialogue
+                    etudiantsDetailsWindow.Owner = Window.GetWindow(this);
+
+                
+                
+
+                // Positionner la fenêtre modale par rapport à la fenêtre principale
+                if (etudiantsDetailsWindow.Owner != null)
+                {
+                    etudiantsDetailsWindow.Left = etudiantsDetailsWindow.Owner.Left + 750; // Décalage vers la droite
+                    etudiantsDetailsWindow.Top = etudiantsDetailsWindow.Owner.Top + 170;  // Décalage vers le bas
+                }
+
+                etudiantsDetailsWindow.Closed += (s, args) =>
+                {
+
+                };
+
+                // Afficher la fenêtre modale en utilisant ShowDialog()
+                bool? result = etudiantsDetailsWindow.ShowDialog();
+                
+
+                // Vous pouvez ajouter du code ici pour traiter le résultat si nécessaire
+            }
+        }
+
+
     }
 }
