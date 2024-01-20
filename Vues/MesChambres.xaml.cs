@@ -31,17 +31,21 @@ namespace CiteU.Vues
         public MesChambres()
         {
             InitializeComponent();
+            using (var context = new CiteUContext())
+ 
             LoadData();
+            ListDeChambre.CollectionChanged += (s, e) => { };
             DataContext = this;
             CreateFilterButtons();
         }
 
         private void LoadData()
         {
+            
             using (var context = new CiteUContext())
             {
-                ListDeChambre = new ObservableCollection<Chambres>(context.Chambres.ToList());
 
+                ListDeChambre = new ObservableCollection<Chambres>(context.Chambres.ToList());
                 premieresLettres = ListDeChambre
                     .Select(chambre => chambre.Nom_Chambre.FirstOrDefault().ToString())
                     .Where(premiereLettre => !string.IsNullOrEmpty(premiereLettre))
@@ -99,6 +103,7 @@ namespace CiteU.Vues
                     ((Chambres)c).Nom_Chambre.StartsWith(lettreFiltre, StringComparison.OrdinalIgnoreCase);
                 ChambresView.Refresh();
             }
+            LoadData();
         }
 
         private void InfoChambres(object sender, RoutedEventArgs e)
@@ -107,12 +112,12 @@ namespace CiteU.Vues
 
 
             // Create a new instance of the RoomDetailsWindow and pass the selected room
-            var roomDetailsWindow = new RoomDetailsWindow(selectedRoom);
+            var roomDetailsWindow = new RoomDetailsWindow( selectedRoom);
 
             // Display the window as a dialog
             roomDetailsWindow.ShowDialog();
+            LoadData();
 
-            
         }
 
         protected virtual void OnPropertyChanged(string propertyName)

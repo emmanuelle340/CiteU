@@ -21,7 +21,7 @@ namespace CiteU.Vues
         public RoomDetailsWindow(Chambres room)
         {
             InitializeComponent();
-            Room = room;
+            UpdateChambre(room);
             DataContext = Room;
             // Centrer la fenêtre à l'écran
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -30,9 +30,16 @@ namespace CiteU.Vues
             var blurEffect = new BlurEffect { Radius = 8 };
             var mainWindow = System.Windows.Application.Current.MainWindow;
             mainWindow.Effect = blurEffect;
-
+            
             // Gérer l'événement Closed de la RoomDetailsWindow
             Closed += RoomDetailsWindow_Closed;
+        }
+
+        private void UpdateChambre(Chambres room )
+        {
+
+            using (var context = new CiteUContext())
+                Room = context.Chambres.FirstOrDefault(a => a.ID_Chambre == room.ID_Chambre);
         }
 
         private void RemoveBed_Click(object sender, RoutedEventArgs e)
@@ -79,6 +86,7 @@ namespace CiteU.Vues
                     context.Entry(chambre).Property(c => c.Capacite).IsModified = true;
                     context.Entry(chambre).Property(c => c.Statut).IsModified = true;
                     context.SaveChanges();
+                    UpdateChambre(chambre);
                 }
             }
             MessageBox.Show("Un lit a été supprimé de la chambre.", "Lit supprimé", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -164,6 +172,7 @@ namespace CiteU.Vues
 
                     // Enregistrer les changements dans la base de données
                     context.SaveChanges();
+                    UpdateChambre(chambreExistante);
 
                     // Fermer la fenêtre de répartition des chambres
                     Application.Current.MainWindow.Effect = null;
@@ -190,22 +199,42 @@ namespace CiteU.Vues
             Lits nouveauLit = new Lits();
             nouveauLit.ChambresID_Chambre = Room.ID_Chambre;
             Room.Capacite += 1;
-            ObservableCollection<Lits> list = new ObservableCollection<Lits>();
-            list.Add(nouveauLit);
+
             using (var context = new CiteUContext())
             {
-                //if (chambre.Capacite == 0) chambre.Statut = 
+                // Check if the Room entity is already tracked by the context
+                var entry = context.Entry(Room);
+                if (entry.State == EntityState.Detached)
+                {
+                    context.Chambres.Attach(Room);
+                }
+
+                //if (Room.Capacite == 0) Room.Statut = "Your logic here";
                 if (Room.Statut == "Aucun Lit, Chambre indisponible") Room.Statut = "Disponible";
+
                 // Enregistrer les modifications dans la base de données
                 context.Lits.Add(nouveauLit);
                 context.SaveChanges();
-                context.Entry(Room).Property(c => c.Capacite).IsModified = true;
-                context.Entry(Room).Property(c => c.Statut).IsModified = true;
-                context.Entry( Room).State = EntityState.Modified;
+
+                // Mark the properties as modified
+                entry.Property(c => c.Capacite).IsModified = true;
+                entry.Property(c => c.Statut).IsModified = true;
+
+                // Set the state to Modified
+                entry.State = EntityState.Modified;
+
                 context.SaveChanges();
             }
+
             // Afficher un message de succès
             MessageBox.Show("Un lit a été ajouté à la chambre.", "Lit ajouté", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+
+
     }
 }
+
+/*
+ 
+ 
+ */

@@ -21,8 +21,9 @@ namespace CiteU.Vues
             // Initialiser la liste des bâtiments lors de la création de la classe
             ListOfBatiments = new ObservableCollection<Batiments>();
             ListOfBatiments.CollectionChanged += (s, e) => { /* Mettre à jour l'interface utilisateur ici */ };
-
+            
             UpdateListOfBatiments();
+
             DataContext = this;
         }
 
@@ -67,6 +68,7 @@ namespace CiteU.Vues
 
                     // Mettre à jour la liste des bâtiments après la fermeture de la boîte de dialogue
                     UpdateListOfBatiments();
+                    MesChambres mesChambres = new MesChambres();
                 };
 
                 // Afficher la boîte de dialogue
@@ -101,6 +103,7 @@ namespace CiteU.Vues
 
                 // Mettre à jour la liste des bâtiments après la fermeture de la fenêtre de détails
                 UpdateListOfBatiments();
+                MesChambres mesChambres = new MesChambres();
             };
 
             // Afficher la fenêtre de détails du bâtiment
@@ -124,6 +127,7 @@ namespace CiteU.Vues
 
                     // Mettre à jour la liste des bâtiments après la suppression
                     UpdateListOfBatiments();
+                    MesChambres mesChambres = new MesChambres();
                 }
             }
         }
