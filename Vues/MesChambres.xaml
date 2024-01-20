@@ -26,7 +26,7 @@
             <StackPanel Orientation="Horizontal" Margin="0" x:Name="MonStackPanel"></StackPanel>
         </ScrollViewer>
 
-       <!-- <StackPanel Orientation="Horizontal" Margin="0" x:Name="MonStack">
+        <!-- <StackPanel Orientation="Horizontal" Margin="0" x:Name="MonStack">
             <CheckBox Content="Disponibles" Checked="Filter_Checked" Unchecked="Filter_Unchecked" Margin="10"/>
             <CheckBox Content="Occupées" Checked="Filter_Checked" Unchecked="Filter_Unchecked" Margin="10"/>
         </StackPanel> -->

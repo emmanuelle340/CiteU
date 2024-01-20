@@ -32,8 +32,8 @@ namespace CiteU.Vues
         {
             InitializeComponent();
             using (var context = new CiteUContext())
- 
-            LoadData();
+
+                LoadData();
             ListDeChambre.CollectionChanged += (s, e) => { };
             DataContext = this;
             CreateFilterButtons();
@@ -41,7 +41,7 @@ namespace CiteU.Vues
 
         private void LoadData()
         {
-            
+
             using (var context = new CiteUContext())
             {
 
@@ -85,7 +85,7 @@ namespace CiteU.Vues
                 MonStackPanel.Children.Add(button);
             }
 
-            
+
         }
 
         private void Tout_Click(object sender, RoutedEventArgs e)
@@ -93,18 +93,18 @@ namespace CiteU.Vues
             ChambresView.Filter = null;
         }
 
-        private void Lettre_Click(object sender, RoutedEventArgs e,string lettreFiltre)
+        private void Lettre_Click(object sender, RoutedEventArgs e, string lettreFiltre)
         {
-           
-
             if (!string.IsNullOrEmpty(lettreFiltre))
             {
                 ChambresView.Filter = c =>
                     ((Chambres)c).Nom_Chambre.StartsWith(lettreFiltre, StringComparison.OrdinalIgnoreCase);
                 ChambresView.Refresh();
             }
-            LoadData();
+            // Remove the following line, as it resets the filter
+            // LoadData();
         }
+
 
         private void InfoChambres(object sender, RoutedEventArgs e)
         {
@@ -112,7 +112,7 @@ namespace CiteU.Vues
 
 
             // Create a new instance of the RoomDetailsWindow and pass the selected room
-            var roomDetailsWindow = new RoomDetailsWindow( selectedRoom);
+            var roomDetailsWindow = new RoomDetailsWindow(selectedRoom);
 
             // Display the window as a dialog
             roomDetailsWindow.ShowDialog();
