@@ -44,52 +44,52 @@ namespace CiteU.Vues
 
         private void RemoveBed_Click(object sender, RoutedEventArgs e)
         {
-            // Logique pour supprimer un lit de la chambre
-            // Rechercher les lits non occupés
             using (var context = new CiteUContext())
             {
                 int chambreID = Room.ID_Chambre;
 
-                List<Lits> litsNonReserves = context.Lits
-                    .Where(lit => lit.ChambresID_Chambre == chambreID && lit.Reservations_ID_Reservation == null)
-                    .ToList();
+                // Recherche du premier lit non réservé dans la chambre
+                Lits litARetirer = context.Lits
+                    .FirstOrDefault(lit => lit.ChambresID_Chambre == chambreID && lit.Reservations_ID_Reservation == null);
 
-                if (Room.Capacite == 0)
+                if (litARetirer == null)
                 {
-
-                    MessageBox.Show("Il n'y a pas de lits dans cette chambre", "Erreur Suppression Lit", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Tous les lits sont occupés ou hors service, vous ne pouvez pas en supprimer un.", "Erreur Suppression Lit", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
-                if (litsNonReserves.Count == 0)
-                {
-                    MessageBox.Show("Tous les lits sont occupés, vous ne pouvez pas en supprimer un.", "Erreur Suppression Lit", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-                
-                int index = 0;
-                Lits litARetirer = litsNonReserves[index];
 
-                // Retirer le lit de la liste
-                litsNonReserves.RemoveAt(index);
-
-                // Supprimer le lit de la base de données
+                // Supprimer le lit de la chambre
                 context.Lits.Remove(litARetirer);
                 context.SaveChanges();
 
+                // Mettre à jour le statut de la chambre et sa capacité
+                UpdateRoomStatusAndCapacity(chambreID);
+            }
+
+            MessageBox.Show("Un lit a été supprimé de la chambre.", "Lit supprimé", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void UpdateRoomStatusAndCapacity(int chambreID)
+        {
+            using (var context = new CiteUContext())
+            {
                 // Rechercher la chambre dans le contexte
                 Chambres chambre = context.Chambres.FirstOrDefault(c => c.ID_Chambre == chambreID);
+
                 if (chambre != null)
                 {
-                    chambre.Capacite -= 1;
-                    if (chambre.Capacite == 0) chambre.Statut = "Aucun Lit, Chambre indisponible";
-                    // Enregistrer la mise à jour de la capacité dans la base de données
-                    context.Entry(chambre).Property(c => c.Capacite).IsModified = true;
-                    context.Entry(chambre).Property(c => c.Statut).IsModified = true;
+                    // Mettre à jour le statut de la chambre
+                    chambre.Statut = context.Lits.Any(lit => lit.ChambresID_Chambre == chambreID && lit.Reservations_ID_Reservation == null)
+                        ? "Occupée"
+                        : "Non disponible,Aucun Lit";
+
+                    // Mettre à jour la capacité de la chambre
+                    chambre.Capacite = context.Lits.Count(lit => lit.ChambresID_Chambre == chambreID && lit.Reservations_ID_Reservation == null);
+
+                    // Enregistrer les modifications dans la base de données
                     context.SaveChanges();
-                    UpdateChambre(chambre);
                 }
             }
-            MessageBox.Show("Un lit a été supprimé de la chambre.", "Lit supprimé", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void DivideRoom_Click(object sender, RoutedEventArgs e)
