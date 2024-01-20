@@ -1,0 +1,4 @@
+Doe,John,1990-05-15,M,123456789,john.doe@example.com,0
+Smith,Jane,1992-08-20,F,987654321,jane.smith@example.com,1
+Williams,Robert,1991-11-10,M,555123456,robert.williams@example.com,0;
+
