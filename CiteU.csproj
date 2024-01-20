@@ -97,6 +97,9 @@
     <Compile Include="Vues\AjouterBatimentDialog.xaml.cs">
       <DependentUpon>AjouterBatimentDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vues\DetailsBatiment.xaml.cs">
+      <DependentUpon>DetailsBatiment.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vues\Mesbatiments.xaml.cs">
       <DependentUpon>Mesbatiments.xaml</DependentUpon>
     </Compile>
@@ -108,6 +111,9 @@
     </Compile>
     <Compile Include="Vues\MesPayements.xaml.cs">
       <DependentUpon>MesPayements.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vues\RepartitionChambresWindow.xaml.cs">
+      <DependentUpon>RepartitionChambresWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vues\RoomDetailsWindow.xaml.cs">
       <DependentUpon>RoomDetailsWindow.xaml</DependentUpon>
@@ -132,6 +138,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Vues\DetailsBatiment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Vues\Mesbatiments.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -145,6 +155,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Vues\MesPayements.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vues\RepartitionChambresWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,0 +1,82 @@
+﻿<Window x:Class="CiteU.Vues.DetailsBatiment"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CiteU.Vues"
+        mc:Ignorable="d"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        ResizeMode="NoResize"
+        Title="DetailsBatiment" 
+        Width="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock Text="Details Batiments" FontSize="27" HorizontalAlignment="Center" VerticalAlignment="Center" FontStyle="Italic" TextDecorations="Underline" Margin="0 40 0 0 "/>
+
+        <!-- Room details content -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="20 0" HorizontalAlignment="Right">
+            <TextBlock Text="Actions sur le batiment:          "
+           TextAlignment="Center"
+           HorizontalAlignment="Center"
+           VerticalAlignment="Center"
+           FontSize="15"
+           FontStyle="Italic"
+           Margin="0 10 10 0"/>
+            <Border BorderThickness="1" BorderBrush="#3C4048" Background="#3C4048" CornerRadius="100" Width="30" Height="30">
+                <Button x:Name="SupprimeChambre" Background="Transparent" BorderThickness="0" BorderBrush="White" Click="SupprimeChambre_Click" ToolTip="Supprimer le batiment">
+                    <fa:ImageAwesome Icon="Trash" Width="16" Height="16" Foreground="White" Margin="5"/>
+                </Button>
+            </Border>
+        </StackPanel>
+
+        <!-- Ajout d'un ScrollViewer autour de votre Grid -->
+        <ScrollViewer Grid.Row="2" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Labels et TextBoxes avec HorizontalContentAlignment="Left" -->
+                <Label Content="Nom du bâtiment :" FontWeight="Bold" FontSize="20"  HorizontalContentAlignment="Left" Margin="0 10"/>
+                <TextBlock Text="{Binding Nom_Batiment}" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Margin="0 10" Grid.Row="0" Grid.Column="1"/>
+
+                <Label Content="Adresse du bâtiment :" FontWeight="Bold" FontSize="20"  HorizontalContentAlignment="Left" Margin="0 10" Grid.Row="1" Grid.Column="0"/>
+                <TextBox x:Name="AdresseTextBox" Text="{Binding Adresse_Batiment, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" HorizontalContentAlignment="Left" Margin="40 10" Width="180" Grid.Row="1" Grid.Column="1"/>
+
+                <Label Content="Description du bâtiment :" FontWeight="Bold" FontSize="20" HorizontalContentAlignment="Left" Margin="0 10" Grid.Row="2" Grid.Column="0"/>
+                <TextBox x:Name="DescriptionTextBox" Text="{Binding Description_Batiment, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" HorizontalContentAlignment="Left" Margin="40 10" Width="180" Grid.Row="2" Grid.Column="1"/>
+
+                <Label Content="Nombre de chambres vides :" FontWeight="Bold" FontSize="20" HorizontalContentAlignment="Left" Margin="0 10" Grid.Row="3" Grid.Column="0"/>
+                <TextBlock Text="{Binding NombreChambresVides}" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" Margin="0 10" Grid.Row="3" Grid.Column="1"/>
+
+                <Label Content="Nombre d'étages :" FontWeight="Bold" FontSize="20"  HorizontalContentAlignment="Left" Margin="0 10" Grid.Row="4" Grid.Column="0"/>
+                <TextBlock Text="{Binding Nombre_Etages}" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" Margin="0 10" Grid.Row="4" Grid.Column="1"/>
+
+                <Label Content="Nombre de chambres occupées :" FontWeight="Bold" FontSize="20" HorizontalContentAlignment="Left" Margin="0 10" Grid.Row="5" Grid.Column="0"/>
+                <TextBlock Text="{Binding NombreChambresOccupees}" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" Margin="0 10" Grid.Row="5" Grid.Column="1"/>
+
+                <!-- Bouton Enregistrer -->
+                <Border BorderThickness="1" BorderBrush="#3C4048" Background="Transparent" CornerRadius="10" Width="200" Height="30" Grid.Row="6" Grid.Column="1">
+
+                    <Button Content="Enregistrer les modifications" Foreground="#3C4048" BorderThickness="0" Background="Transparent" Width="200" Height="30" HorizontalAlignment="Center"  Click="Enregistrer_Click" />
+                </Border>
+                
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Window>

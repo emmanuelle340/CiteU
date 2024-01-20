@@ -36,6 +36,7 @@ namespace CiteU
             IconHome.Foreground = new SolidColorBrush(Colors.White);
             ChangerCouleurBordure(btnHomeBorder);
             setActiveUserControl(Mesbatiments);
+            
 
         }
 
@@ -63,8 +64,14 @@ namespace CiteU
         {
             Mesbatiments.Visibility = Visibility.Collapsed;
             MesEtudiants.Visibility = Visibility.Collapsed;
+            MesChambres.Visibility = Visibility.Collapsed;
+            MesPayements.Visibility = Visibility.Collapsed;
 
             control.Visibility = Visibility.Visible;
+            if (control == Mesbatiments)
+            {
+                MesChambres.Visibility= Visibility.Visible;
+            }
         }
         public void ChangerCouleurBordure(Border border)
         {

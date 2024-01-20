@@ -54,11 +54,12 @@ namespace CiteU.Vues
 
                         dernierIdBatiment = context.Batiments.OrderByDescending(b => b.ID_Batiment).Select(b => b.ID_Batiment).FirstOrDefault();
                         // Vérifiez si le nom du bâtiment existe déjà
-                        if (context.Batiments.Any(b => b.Nom_Batiment == txtNomBatiment.Text))
+                        if (context.Batiments.Any(b => b.Nom_Batiment.ToLower() == txtNomBatiment.Text.ToLower()))
                         {
                             MessageBox.Show("Le nom du bâtiment existe déjà. Veuillez saisir un nom différent.", "Erreur de validation", MessageBoxButton.OK, MessageBoxImage.Error);
                             return;
                         }
+
                     }
 
                     // Incrémentez l'ID pour le nouveau bâtiment
@@ -68,7 +69,7 @@ namespace CiteU.Vues
                     Batiments nouveauBatiment = new Batiments
                     {
                         ID_Batiment = nouvelIdBatiment,
-                        Nom_Batiment = txtNomBatiment.Text,
+                        Nom_Batiment = txtNomBatiment.Text.ToUpper(),
                         Nombre_max_chambre = Convert.ToInt32(txtNombreChambres.Text),
                         Nombre_Etages = Convert.ToInt32(txtNombreEtages.Text),
                         Description_Batiment=txtDescriptionBatiment.Text,

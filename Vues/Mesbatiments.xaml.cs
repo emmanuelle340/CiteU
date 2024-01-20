@@ -2,65 +2,35 @@
 using CiteU;
 using CiteUContext = CiteU.Modele.CiteU;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Media.Effects;
 
 namespace CiteU.Vues
 {
-    /// <summary>
-    /// Logique d'interaction pour Mesbatiments.xaml
-    /// </summary>
     public partial class Mesbatiments : UserControl
     {
         public ObservableCollection<Batiments> ListOfBatiments { get; set; }
-        public string nomBatiment { get; set; }
 
         public Mesbatiments()
         {
             InitializeComponent();
 
-            using (var context = new CiteUContext())  // Utilisez le nom de votre classe DbContext ici
+            // Initialiser la liste des bâtiments lors de la création de la classe
+            UpdateListOfBatiments();
+            DataContext = this;
+        }
+
+        // Mettre à jour la liste des bâtiments à partir de la base de données
+        private void UpdateListOfBatiments()
+        {
+            using (var context = new CiteUContext())
             {
                 ListOfBatiments = new ObservableCollection<Batiments>(context.Batiments.ToList());
-
             }
-            DataContext = this;
-
         }
-
-
-        // Propriété de visibilité pour le nouveau UserControl
-        public Visibility NouveauUserControlVisibility
-        {
-            get { return (Visibility)GetValue(NouveauUserControlVisibilityProperty); }
-            set { SetValue(NouveauUserControlVisibilityProperty, value); }
-        }
-
-        public static readonly DependencyProperty NouveauUserControlVisibilityProperty =
-            DependencyProperty.Register("NouveauUserControlVisibility", typeof(Visibility), typeof(Mesbatiments), new PropertyMetadata(Visibility.Collapsed));
-
-        // Méthode pour changer la visibilité du nouveau UserControl
-        private void AfficherNouveauUserControl()
-        {
-            NouveauUserControlVisibility = Visibility.Visible;
-        }
-
-
-       
-
 
         private void AjouterBatiment_Click(object sender, RoutedEventArgs e)
         {
@@ -74,6 +44,7 @@ namespace CiteU.Vues
                 mainWindow.Effect = blurEffect;
 
                 var dialog = new AjouterBatimentDialog();
+
                 // Définir la fenêtre principale comme propriétaire de la boîte de dialogue
                 dialog.Owner = mainWindow;
 
@@ -84,13 +55,69 @@ namespace CiteU.Vues
                 // Gérer la fermeture de la boîte de dialogue
                 dialog.Closed += (s, args) =>
                 {
-
                     // Restaurer la fenêtre principale sans flou
                     mainWindow.Effect = null;
+
+                    // Mettre à jour la liste des bâtiments après la fermeture de la boîte de dialogue
+                    UpdateListOfBatiments();
                 };
 
                 // Afficher la boîte de dialogue
                 dialog.ShowDialog();
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            // Obtenez la chambre sélectionnée depuis la source de données
+            Batiments monbatiment = ((Button)sender).DataContext as Batiments;
+
+            // Créer et afficher la fenêtre de détails de la chambre
+            DetailsBatiment detailsWindow = new DetailsBatiment(monbatiment);
+
+            // Obtenez la fenêtre principale
+            Window mainWindow = Window.GetWindow(this);
+
+            // Centrer la fenêtre de détails par rapport à la fenêtre principale
+            detailsWindow.Left = mainWindow.Left + (mainWindow.Width - detailsWindow.Width) / 2;
+            detailsWindow.Top = mainWindow.Top + (mainWindow.Height - detailsWindow.Height) / 2;
+
+            // Appliquer un effet de flou à la fenêtre principale
+            var blurEffect = new BlurEffect { Radius = 8 };
+            mainWindow.Effect = blurEffect;
+
+            // Gérer la fermeture de la fenêtre de détails
+            detailsWindow.Closed += (s, args) =>
+            {
+                // Supprimer l'effet de flou après la fermeture de la fenêtre de détails
+                mainWindow.Effect = null;
+
+                // Mettre à jour la liste des bâtiments après la fermeture de la fenêtre de détails
+                UpdateListOfBatiments();
+            };
+
+            // Afficher la fenêtre de détails de la chambre
+            detailsWindow.ShowDialog();
+        }
+
+        private void SupprimerBatiment_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.DataContext is Batiments batimentToDelete)
+            {
+                MessageBoxResult result = MessageBox.Show("Voulez-vous vraiment supprimer ce bâtiment ?", "Confirmation de suppression", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    using (var context = new CiteUContext())
+                    {
+                        // Supprimer le bâtiment de la base de données
+                        context.Batiments.Remove(batimentToDelete);
+                        context.SaveChanges();
+                    }
+
+                    // Mettre à jour la liste des bâtiments après la suppression
+                    UpdateListOfBatiments();
+                }
             }
         }
     }

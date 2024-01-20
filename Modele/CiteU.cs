@@ -19,6 +19,8 @@ namespace CiteU.Modele
         public virtual DbSet<Paiements> Paiements { get; set; }
         public virtual DbSet<Reservations> Reservations { get; set; }
 
+        
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Batiments>()
@@ -79,6 +81,19 @@ namespace CiteU.Modele
                 .HasMany(e => e.Lits)
                 .WithOptional(e => e.Reservations)
                 .HasForeignKey(e => e.Reservations_ID_Reservation);
+
+
+            modelBuilder.Entity<Batiments>()
+                .HasMany(e => e.Chambres)
+                .WithOptional(e => e.Batiments)
+                .HasForeignKey(e => e.ID_Batiment)
+                .WillCascadeOnDelete(true); // Activation de la suppression en cascade
+
+            modelBuilder.Entity<Chambres>()
+                .HasMany(e => e.Lits)
+                .WithRequired(e => e.Chambres)
+                .HasForeignKey(e => e.ChambresID_Chambre)
+                .WillCascadeOnDelete(true); // Activation de la suppression en cascade
         }
     }
 }

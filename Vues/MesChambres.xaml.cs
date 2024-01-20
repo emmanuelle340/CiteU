@@ -55,6 +55,18 @@ namespace CiteU.Vues
 
         private void CreateFilterButtons()
         {
+            // Ajouter le bouton "Tout"
+            var toutButton = new Button
+            {
+                Content = "Tout",
+                Margin = new Thickness(5),
+                Width = 70,
+                Height = 30
+            };
+
+            toutButton.Click += Tout_Click;
+            MonStackPanel.Children.Add(toutButton);
+
             foreach (var lettre in premieresLettres)
             {
                 var button = new Button
@@ -69,17 +81,7 @@ namespace CiteU.Vues
                 MonStackPanel.Children.Add(button);
             }
 
-            // Ajouter le bouton "Tout"
-            var toutButton = new Button
-            {
-                Content = "Tout",
-                Margin = new Thickness(5),
-                Width = 70,
-                Height = 30
-            };
-
-            toutButton.Click += Tout_Click;
-            MonStackPanel.Children.Add(toutButton);
+            
         }
 
         private void Tout_Click(object sender, RoutedEventArgs e)
