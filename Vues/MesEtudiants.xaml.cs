@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using CiteUContext = CiteU.Modele.CiteU;
+using CiteUContext =CiteU.Modele.CiteU;
 
 namespace CiteU.Vues
 {
@@ -37,8 +37,9 @@ namespace CiteU.Vues
 
         private void LoadEtudiants()
         {
-            ListOfEtudiants = context.Etudiants.ToList();
+            ListOfEtudiants = context.Etudiants.OrderByDescending(e => e.ID_Etudiant).ToList();
         }
+
 
         private void ImporterEtudiant_Click(object sender, RoutedEventArgs e)
         {
@@ -78,6 +79,7 @@ namespace CiteU.Vues
                         ListOfEtudiants.Add(nouvelEtudiant);
                         context.Etudiants.Add(nouvelEtudiant);
                         context.SaveChanges();
+                        LoadEtudiants();
                     }
                     else
                     {
