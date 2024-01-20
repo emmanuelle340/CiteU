@@ -17,24 +17,45 @@ using System.Windows.Shapes;
 using CiteUContext = CiteU.Modele.CiteU;
 using System.Runtime.Remoting.Contexts;
 
+
 namespace CiteU.Vues
 {
-    /// <summary>
-    /// Logique d'interaction pour MesEtudiants.xaml
-    /// </summary>
     public partial class MesEtudiants : UserControl
     {
         public CiteUContext context = new CiteUContext();
+        public int TotalEtudiants => ListOfEtudiants.Count;
+
+        // Ajoutez une propriété observable pour la liste d'étudiants
+        public List<Etudiants> ListOfEtudiants { get; set; } = new List<Etudiants>();
+
         public MesEtudiants()
         {
             InitializeComponent();
+            // Chargez la liste initiale d'étudiants
+            LoadEtudiants();
         }
 
+        private void LoadEtudiants()
+        {
+            // Assurez-vous de vider la liste avant de la remplir à nouveau
+            ListOfEtudiants.Clear();
+
+            // Chargez les étudiants depuis la base de données
+            ListOfEtudiants = context.Etudiants.ToList();
+
+            // Mettez à jour l'interface utilisateur en appelant NotifyPropertyChanged
+            OnPropertyChanged(nameof(ListOfEtudiants));
+            OnPropertyChanged(nameof(TotalEtudiants)); // Ajout de cette ligne
+        }
+
+        // ... (autres méthodes)
+
+        // Méthode appelée lors du clic sur le bouton d'importation
         private void ImporterEtudiant_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                string filePath = "MesEtudiants.txt";
+                 string filePath = "MesEtudiants.txt";
                 
                     var dernierEtudiant = context.Etudiants
                        .OrderByDescending(t => t.ID_Etudiant)
@@ -77,6 +98,7 @@ namespace CiteU.Vues
                             Email = data[5].Trim(),
                             Handicape = int.TryParse(data[6].Trim(), out int handicape) ? handicape : 0
                         };
+                        ListOfEtudiants.Add(nouvelEtudiant);
 
                         context.Etudiants.Add(nouvelEtudiant);
                         context.SaveChanges();
@@ -88,12 +110,26 @@ namespace CiteU.Vues
                 }
 
                 MessageBox.Show("Importation réussie", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
-                MessageBox.Show("Données écrites avec succès dans le fichier", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                //MessageBox.Show("Données écrites avec succès dans le fichier", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+            
+                
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Erreur lors de l'importation : " + ex.Message, "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        // Méthode pour notifier les changements aux liaisons de données
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+        }
+
+        // Événement pour notifier les changements aux liaisons de données
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
     }
 }
+
+ 

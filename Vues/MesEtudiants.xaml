@@ -11,6 +11,7 @@
             <RowDefinition Height="100"></RowDefinition>
             <RowDefinition Height="60"></RowDefinition>
             <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="320"></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock Text="LES ETUDIANTS" FontSize="34" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
@@ -25,9 +26,10 @@
                 <TextBlock Text="Importer de nouveaux etudiants" Margin="10" Foreground="White" />
             </Button>
         </Border>
-        <ScrollViewer Grid.Row="3">
+        <TextBlock Text="{Binding TotalEtudiants, StringFormat={}Total Etudiant: {0}}" Grid.Row="3" />
+        <ScrollViewer Grid.Row="4">
             <!-- Liste des étudiants -->
-            <ItemsControl ItemsSource="{Binding Path=ListOfEtudiants}">
+            <ItemsControl ItemsSource="{Binding Path=ListOfEtudiants, RelativeSource={RelativeSource AncestorType={x:Type local:MesEtudiants}}}">
                 <!-- Se lie à votre liste d'étudiants -->
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -42,7 +44,7 @@
                                     <TextBlock Text="{Binding Date_Naissance, StringFormat= {}Date de naissance : {0:d}}" Width="288" TextAlignment="Left" HorizontalAlignment="Left" Margin="0 5" />
                                     <TextBlock Text="{Binding Telephone, StringFormat= {}Téléphone : {0}}" Width="288" TextAlignment="Left" HorizontalAlignment="Left" Margin="0 5" />
                                     <TextBlock Text="{Binding Email, StringFormat= {}Email : {0}}" Width="288" TextAlignment="Left" HorizontalAlignment="Left" Margin="0 5" />
-                                    <TextBlock Text="{Binding Handicape, Converter={StaticResource HandicapeConverter}, StringFormat= {}Handicapé : {0}}" Width="288" TextAlignment="Left" HorizontalAlignment="Left" Margin="0 5" />
+                                    
                                 </StackPanel>
                             </Button>
                         </Border>
