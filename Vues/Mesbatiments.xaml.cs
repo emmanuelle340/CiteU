@@ -19,6 +19,9 @@ namespace CiteU.Vues
             InitializeComponent();
 
             // Initialiser la liste des bâtiments lors de la création de la classe
+            ListOfBatiments = new ObservableCollection<Batiments>();
+            ListOfBatiments.CollectionChanged += (s, e) => { /* Mettre à jour l'interface utilisateur ici */ };
+
             UpdateListOfBatiments();
             DataContext = this;
         }
@@ -28,7 +31,11 @@ namespace CiteU.Vues
         {
             using (var context = new CiteUContext())
             {
-                ListOfBatiments = new ObservableCollection<Batiments>(context.Batiments.ToList());
+                ListOfBatiments.Clear();
+                foreach (var batiment in context.Batiments.ToList())
+                {
+                    ListOfBatiments.Add(batiment);
+                }
             }
         }
 
@@ -69,10 +76,10 @@ namespace CiteU.Vues
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            // Obtenez la chambre sélectionnée depuis la source de données
+            // Obtenez le bâtiment sélectionné depuis la source de données
             Batiments monbatiment = ((Button)sender).DataContext as Batiments;
 
-            // Créer et afficher la fenêtre de détails de la chambre
+            // Créer et afficher la fenêtre de détails du bâtiment
             DetailsBatiment detailsWindow = new DetailsBatiment(monbatiment);
 
             // Obtenez la fenêtre principale
@@ -96,7 +103,7 @@ namespace CiteU.Vues
                 UpdateListOfBatiments();
             };
 
-            // Afficher la fenêtre de détails de la chambre
+            // Afficher la fenêtre de détails du bâtiment
             detailsWindow.ShowDialog();
         }
 
