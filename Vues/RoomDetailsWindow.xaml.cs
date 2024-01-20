@@ -186,25 +186,29 @@ namespace CiteU.Vues
 
         private void AddBed_Click(object sender, RoutedEventArgs e)
         {
-            // Ajouter un nouveau lit à la chambre
-            Lits nouveauLit = new Lits();
-            nouveauLit.ChambresID_Chambre = Room.ID_Chambre;
-            Room.Capacite += 1;
-            ObservableCollection<Lits> list = new ObservableCollection<Lits>();
-            list.Add(nouveauLit);
             using (var context = new CiteUContext())
             {
-                //if (chambre.Capacite == 0) chambre.Statut = 
-                if (Room.Statut == "Aucun Lit, Chambre indisponible") Room.Statut = "Disponible";
-                // Enregistrer les modifications dans la base de données
+                if (Room.Statut == "Aucun Lit, Chambre indisponible")
+                    Room.Statut = "Disponible";
+
+                // Attach the Room entity to the context if it's not already
+                if (context.Entry(Room).State == EntityState.Detached)
+                {
+                    context.Chambres.Attach(Room);
+                }
+
+                Lits nouveauLit = new Lits
+                {
+                    ChambresID_Chambre = Room.ID_Chambre
+                };
+
+                Room.Capacite += 1;
+
                 context.Lits.Add(nouveauLit);
-                context.SaveChanges();
                 context.Entry(Room).Property(c => c.Capacite).IsModified = true;
                 context.Entry(Room).Property(c => c.Statut).IsModified = true;
-                context.Entry( Room).State = EntityState.Modified;
                 context.SaveChanges();
             }
-            // Afficher un message de succès
             MessageBox.Show("Un lit a été ajouté à la chambre.", "Lit ajouté", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
