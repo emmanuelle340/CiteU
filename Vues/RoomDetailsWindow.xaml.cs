@@ -81,7 +81,7 @@ namespace CiteU.Vues
                     // Mettre à jour le statut de la chambre
                     chambre.Statut = context.Lits.Any(lit => lit.ChambresID_Chambre == chambreID && lit.Reservations_ID_Reservation == null)
                         ? "Occupée"
-                        : "Non disponible,Aucun Lit";
+                        : "Aucun Lit";
 
                     // Mettre à jour la capacité de la chambre
                     chambre.Capacite = context.Lits.Count(lit => lit.ChambresID_Chambre == chambreID && lit.Reservations_ID_Reservation == null);
@@ -210,7 +210,7 @@ namespace CiteU.Vues
                 }
 
                 //if (Room.Capacite == 0) Room.Statut = "Your logic here";
-                if (Room.Statut == "Aucun Lit, Chambre indisponible") Room.Statut = "Disponible";
+                if (Room.Statut == "Aucun Lit") Room.Statut = "Disponible";
 
                 // Enregistrer les modifications dans la base de données
                 context.Lits.Add(nouveauLit);
