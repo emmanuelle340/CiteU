@@ -195,6 +195,7 @@ namespace CiteU.Vues
 
         private void AddBed_Click(object sender, RoutedEventArgs e)
         {
+<<<<<<< HEAD
             // Ajouter un nouveau lit à la chambre
             Lits nouveauLit = new Lits();
             nouveauLit.ChambresID_Chambre = Room.ID_Chambre;
@@ -205,10 +206,20 @@ namespace CiteU.Vues
                 // Check if the Room entity is already tracked by the context
                 var entry = context.Entry(Room);
                 if (entry.State == EntityState.Detached)
+=======
+            using (var context = new CiteUContext())
+            {
+                if (Room.Statut == "Aucun Lit, Chambre indisponible")
+                    Room.Statut = "Disponible";
+
+                // Attach the Room entity to the context if it's not already
+                if (context.Entry(Room).State == EntityState.Detached)
+>>>>>>> a97b37f9e0b0008f019330c0c0a0011fac043a99
                 {
                     context.Chambres.Attach(Room);
                 }
 
+<<<<<<< HEAD
                 //if (Room.Capacite == 0) Room.Statut = "Your logic here";
                 if (Room.Statut == "Aucun Lit, Chambre indisponible") Room.Statut = "Disponible";
 
@@ -227,6 +238,20 @@ namespace CiteU.Vues
             }
 
             // Afficher un message de succès
+=======
+                Lits nouveauLit = new Lits
+                {
+                    ChambresID_Chambre = Room.ID_Chambre
+                };
+
+                Room.Capacite += 1;
+
+                context.Lits.Add(nouveauLit);
+                context.Entry(Room).Property(c => c.Capacite).IsModified = true;
+                context.Entry(Room).Property(c => c.Statut).IsModified = true;
+                context.SaveChanges();
+            }
+>>>>>>> a97b37f9e0b0008f019330c0c0a0011fac043a99
             MessageBox.Show("Un lit a été ajouté à la chambre.", "Lit ajouté", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
