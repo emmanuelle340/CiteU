@@ -149,9 +149,10 @@ namespace CiteU.Vues
                     // Mettre à jour la capacité des chambres avec les nouvelles valeurs
                     chambreExistante.Capacite = repartitionWindow.CapaciteChambre1;
                     nouvelleChambre.Capacite = repartitionWindow.CapaciteChambre2;
-
-                    // Transférer les lits de la chambre existante à la nouvelle chambre
-                    var litsATransfererList = context.Lits
+                    if (chambreExistante.Capacite == 0) chambreExistante.Statut= "Hors service";
+                    if (nouvelleChambre.Capacite == 0) nouvelleChambre.Statut= "Hors service";
+                        // Transférer les lits de la chambre existante à la nouvelle chambre
+                        var litsATransfererList = context.Lits
                         .Where(lit => lit.ChambresID_Chambre == chambreExistante.ID_Chambre && lit.Reservations_ID_Reservation == null)
                         .Take(litsATransferer)
                         .ToList();

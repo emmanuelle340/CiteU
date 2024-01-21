@@ -32,14 +32,14 @@ namespace CiteU.Modele
                 .Property(e => e.Description_Batiment)
                 .IsUnicode(false);
 
+            modelBuilder.Entity<Batiments>()
+                .HasMany(e => e.Chambres)
+                .WithOptional(e => e.Batiments)
+                .WillCascadeOnDelete();
+
             modelBuilder.Entity<Chambres>()
                 .Property(e => e.Statut)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<Chambres>()
-                .HasMany(e => e.Lits)
-                .WithRequired(e => e.Chambres)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Etudiants>()
                 .Property(e => e.Nom)
@@ -65,8 +65,7 @@ namespace CiteU.Modele
             modelBuilder.Entity<Lits>()
                 .HasMany(e => e.Reservations)
                 .WithRequired(e => e.Lits)
-                .HasForeignKey(e => e.Lits_id)
-                .WillCascadeOnDelete(false);
+                .HasForeignKey(e => e.Lits_id);
 
             modelBuilder.Entity<Reservations>()
                 .Property(e => e.Statut_Paiement)
@@ -75,20 +74,8 @@ namespace CiteU.Modele
             modelBuilder.Entity<Reservations>()
                 .HasMany(e => e.Etudiants)
                 .WithOptional(e => e.Reservations)
-                .HasForeignKey(e => e.Reservations_ID_Reservation);
-
-            modelBuilder.Entity<Batiments>()
-                .HasMany(e => e.Chambres)
-                .WithOptional(e => e.Batiments)
-                .HasForeignKey(e => e.ID_Batiment)
-                .WillCascadeOnDelete(true); // Activation de la suppression en cascade
-
-            modelBuilder.Entity<Chambres>()
-                .HasMany(e => e.Lits)
-                .WithRequired(e => e.Chambres)
-                .HasForeignKey(e => e.ChambresID_Chambre)
-                .WillCascadeOnDelete(true); // Activation de la suppression en cascade
-
+                .HasForeignKey(e => e.Reservations_ID_Reservation)
+                .WillCascadeOnDelete();
         }
     }
 }

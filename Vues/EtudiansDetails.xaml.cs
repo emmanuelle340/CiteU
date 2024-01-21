@@ -79,7 +79,7 @@ namespace CiteU.Vues
             using (var newcontext = new CiteUContext())
             {
                 Etudiants selectedEtudiant = DataContext as Etudiants;
-
+ 
                 var litsNonReserves = newcontext.Lits
                     .Where(lit => lit.Reservations_ID_Reservation == null)
                     .ToList();
@@ -95,6 +95,7 @@ namespace CiteU.Vues
                     return;
                 }
 
+                
                 List<Chambres> ToutesChambre = litsNonReserves
                     .Select(l => newcontext.Chambres.FirstOrDefault(c => c.ID_Chambre == l.ChambresID_Chambre))
                     .ToList();
@@ -147,6 +148,11 @@ namespace CiteU.Vues
                                   
                                 };
                                 reservations.Lits = litAttribue;
+                                var entry1 = newcontext.Entry(litAttribue);
+                                if (entry1.State != EntityState.Detached)
+                                {
+                                    entry1.State = EntityState.Detached;
+                                }
                                 //chambreAttribuee.Batiments.IncrementerNombreVide(1);
                                 reservations.Etudiants.Add(selectedEtudiant);
                                 newcontext.Reservations.Add(reservations); // Mettre à jour l'objet Batiments dans la base de données
@@ -178,6 +184,13 @@ namespace CiteU.Vues
 
                         };
                         reservations.Lits = litAttribue;
+                        
+                        var entry2 = newcontext.Entry(litAttribue);
+                        if (entry2.State != EntityState.Detached)
+                        {
+                            entry2.State = EntityState.Detached;
+                        }
+                        
                         //chambreAttribuee.Batiments.IncrementerNombreVide(1);
                         reservations.Etudiants.Add(selectedEtudiant);
                         newcontext.Reservations.Add(reservations); // Mettre à jour l'objet Batiments dans la base de données
@@ -213,6 +226,11 @@ namespace CiteU.Vues
                         Statut_Paiement = "Non payé"
                     };
                     reservations.Lits = litAttribue;
+                    var entry4 = newcontext.Entry(litAttribue);
+                    if (entry4.State != EntityState.Detached)
+                    {
+                        entry4.State = EntityState.Detached;
+                    }
                     reservations.Etudiants.Add(selectedEtudiant);
                     newcontext.Reservations.Add(reservations);
                     newcontext.SaveChanges();
@@ -245,7 +263,7 @@ namespace CiteU.Vues
                         Statut_Paiement = "Non payé"
                     };
                     reservations.Lits = litAttribue;
-                    reservations.Etudiants.Add(selectedEtudiant);
+                    //reservations.Etudiants.Add(selectedEtudiant);
                     newcontext.Reservations.Add(reservations);
                     newcontext.SaveChanges();
 

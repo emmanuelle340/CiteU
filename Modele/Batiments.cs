@@ -1,4 +1,4 @@
-﻿namespace CiteU.Modele
+namespace CiteU.Modele
 {
     using System;
     using System.Collections.Generic;
@@ -39,7 +39,7 @@
         {
             get { return CalculateNombreChambresVides(); }
             //private set { }
-          
+
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
@@ -52,9 +52,9 @@
 
         private int CalculateNombreChambresVides()
         {
-            using (var context = new CiteU()) // Assurez-vous que le contexte est utilis� localement et est correctement dispos�
+            using (var context = new CiteU()) // Assurez-vous que le contexte est utilis? localement et est correctement dispos?
             {
-                // Recherche des chambres disponibles pour ce b�timent
+                // Recherche des chambres disponibles pour ce b?timent
                 int idBatiment = this.ID_Batiment;
                 int chambresVides = context.Chambres.Count(c => c.ID_Batiment == idBatiment && c.Statut == "Disponible");
 
@@ -64,14 +64,13 @@
 
         private int CalculateNombreChambresOccupees()
         {
-            // Calcul du nombre de chambres occup�es en soustrayant les chambres vides du nombre total de chambres
-            int nombreMaxChambres = (int)this.Nombre_max_chambre;  // Correction du nom de la propri�t�
+            // Calcul du nombre de chambres occup?es en soustrayant les chambres vides du nombre total de chambres
+            int nombreMaxChambres = (int)this.Nombre_max_chambre;  // Correction du nom de la propri?t?
             int chambresVides = CalculateNombreChambresVides();
             int chambresOccupees = nombreMaxChambres - chambresVides;
 
             return chambresOccupees;
         }
 
-        
     }
 }

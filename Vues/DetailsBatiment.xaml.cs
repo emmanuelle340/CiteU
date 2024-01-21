@@ -36,46 +36,42 @@ namespace CiteU.Vues
 
         }
 
-        private void SupprimeChambre_Click(object sender, RoutedEventArgs e)
+        private async void SupprimeChambre_Click(object sender, RoutedEventArgs e)
         {
             // Demander une confirmation à l'utilisateur
             MessageBoxResult result = MessageBox.Show("Voulez-vous vraiment supprimer ce bâtiment ?", "Confirmation de suppression", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
             {
-                // Assurez-vous que DataContext est un Batiments valide
                 if (DataContext is Batiments batiment)
                 {
-                    // Utilisez un contexte EF pour supprimer le bâtiment de la base de données
                     using (var context = new CiteUContext())
                     {
-                        // Chargez le bâtiment avec ses chambres associées depuis la base de données
                         var batimentToDelete = context.Batiments
-                            .Include(b => b.Chambres)
-                            .Single(b => b.ID_Batiment == batiment.ID_Batiment);
+                            .Include(b => b.Chambres.Select(c => c.Lits.Select(l => l.Reservations)))  // Charger les relations en cascade
+                            .SingleOrDefault(b => b.ID_Batiment == batiment.ID_Batiment);
 
-                        // Chargez les lits associés à toutes les chambres du bâtiment
-                        context.Entry(batimentToDelete)
-                            .Collection(b => b.Chambres)
-                            .Query()
-                            .Include(c => c.Lits)
-                            .Load();
-
-                        // Supprimez tous les lits associés aux chambres du bâtiment
-                        foreach (var chambre in batimentToDelete.Chambres)
+                        if (batimentToDelete != null)
                         {
-                            context.Lits.RemoveRange(chambre.Lits);
+                            // Supprimer les réservations
+                            foreach (var chambre in batimentToDelete.Chambres)
+                            {
+                                foreach (var lit in chambre.Lits)
+                                {
+                                    context.Reservations.RemoveRange(lit.Reservations);
+                                }
+                            }
+
+                            // Supprimer les lits et chambres
+                            context.Lits.RemoveRange(batimentToDelete.Chambres.SelectMany(c => c.Lits));
+                            context.Chambres.RemoveRange(batimentToDelete.Chambres);
+
+                            // Supprimer le bâtiment
+                            context.Batiments.Remove(batimentToDelete);
+
+                            // Sauvegarder les modifications
+                            await context.SaveChangesAsync();
                         }
-
-                        // Supprimez toutes les chambres associées au bâtiment
-                        context.Chambres.RemoveRange(batimentToDelete.Chambres);
-
-                        // Supprimez le bâtiment (ce qui supprimera également toutes les chambres)
-                        context.Batiments.Remove(batimentToDelete);
-
-                        // Enregistrez les modifications dans la base de données
-                        context.SaveChanges();
-
                     }
 
                     // Fermer la fenêtre après la suppression
