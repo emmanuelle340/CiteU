@@ -37,6 +37,7 @@ namespace CiteU.Vues
             DataContext = this;
         }
 
+
         private void LoadEtudiants()
         {
             ListOfEtudiants = context.Etudiants.OrderByDescending(e => e.ID_Etudiant).ToList();

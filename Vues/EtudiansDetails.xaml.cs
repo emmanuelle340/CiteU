@@ -20,13 +20,59 @@ namespace CiteU.Vues
 {
     public partial class EtudiansDetails : Window
     {
-        public EtudiansDetails(Etudiants selectedEtudiant)
+        private Etudiants selectedEtudiant;
+
+        public EtudiansDetails(Etudiants etudiant)
+
         {
             InitializeComponent();
-
-            // Assurez-vous d'ajuster ces propriétés en fonction de votre modèle d'étudiant
+            selectedEtudiant = etudiant;
             DataContext = selectedEtudiant;
-            
+            DisplayStudentDetails();
+        }
+
+        private void DisplayStudentDetails()
+        {
+            using (var context = new CiteUContext())
+            {
+                Etudiants selectedEtudiant = DataContext as Etudiants;
+
+                // Afficher le sexe
+                if (selectedEtudiant.Sexe == "feminin")
+                {
+                    SexeTextBlock.Text = "Sexe: Féminin";
+                }
+                else
+                {
+                    SexeTextBlock.Text = "Sexe: Masculin";
+                }
+
+                // Afficher le statut handicapé
+                if (selectedEtudiant.Handicape!=null)
+                {
+                    HandicapTextBlock.Text = "Handicap: Oui";
+                }
+                else
+                {
+                    HandicapTextBlock.Text = "Handicap: Non";
+                }
+
+                // Afficher les chambres réservées
+                if (selectedEtudiant.Reservations != null )
+                {
+                    ChambresTextBlock.Text = "Chambre réservée: ";
+                    
+                        var reservation = selectedEtudiant.Reservations.Lits.Chambres.Nom_Chambre;
+                        ChambresTextBlock.Text += reservation+ ", ";
+                   
+                  
+                    ChambresTextBlock.Text = ChambresTextBlock.Text.TrimEnd(',', ' ');
+                }
+                else
+                {
+                    ChambresTextBlock.Text = "Aucune chambre réservée";
+                }
+            }
         }
 
         private void Attribution_Aleatoire_Click(object sender, RoutedEventArgs e)
