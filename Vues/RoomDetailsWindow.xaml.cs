@@ -81,7 +81,7 @@ namespace CiteU.Vues
                     // Mettre à jour le statut de la chambre
                     chambre.Statut = context.Lits.Any(lit => lit.ChambresID_Chambre == chambreID && lit.Reservations_ID_Reservation == null)
                         ? "Occupée"
-                        : "Aucun Lit";
+                        : "Hors service";
 
                     // Mettre à jour la capacité de la chambre
                     chambre.Capacite = context.Lits.Count(lit => lit.ChambresID_Chambre == chambreID && lit.Reservations_ID_Reservation == null);

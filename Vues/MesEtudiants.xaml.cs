@@ -50,12 +50,22 @@ namespace CiteU.Vues
                 string filePath = "MesEtudiants.txt";
 
                 var dernierEtudiant = context.Etudiants.OrderByDescending(t => t.ID_Etudiant).FirstOrDefault();
+                int id;
+                if (dernierEtudiant == null)
+                {
+                    id = 0;
+                }
+                else
+                {
+                    id = dernierEtudiant.ID_Etudiant;
+                }
 
-                string val1 = $"NomEtudiant{dernierEtudiant.ID_Etudiant + 1},PrenomEtudiant{dernierEtudiant.ID_Etudiant + 1},2004-05-15,M,654879547,Etudiant{dernierEtudiant.ID_Etudiant + 1}@example.com,0";
-                string val2 = $"NomEtudiant{dernierEtudiant.ID_Etudiant + 2},PrenomEtudiant{dernierEtudiant.ID_Etudiant + 2},1999-12-10,F,699584123,Etudiant{dernierEtudiant.ID_Etudiant + 2}@example.com,1";
-                string val3 = $"NomEtudiant{dernierEtudiant.ID_Etudiant + 3},PrenomEtudiant{dernierEtudiant.ID_Etudiant + 3},2001-08-05,M,690152362,Etudiant{dernierEtudiant.ID_Etudiant + 3}@example.com,0";
+                string val1 = $"NomEtudiant{id + 1},PrenomEtudiant{id + 1},2004-05-15,M,654879547,Etudiant{id + 1}@example.com,0";
+                string val2 = $"NomEtudiant{id + 2},PrenomEtudiant {id + 2},1999-12-10,F,699584123,Etudiant {id + 2}@example.com,1";
+                string val3 = $"NomEtudiant{id + 3},PrenomEtudiant{id + 3},2001-08-05,M,690152362,Etudiant{id + 3}@example.com,1";
+                string val4 = $"NomEtudiant{id + 4},PrenomEtudiant{id + 4},2001-08-05,F,690152362,Etudiant{id + 4}@example.com,0";
 
-                List<string> lignesValeursParDefaut = new List<string> { val1, val2, val3 };
+                List<string> lignesValeursParDefaut = new List<string> { val1, val2, val3, val4 };
 
                 File.WriteAllLines(filePath, lignesValeursParDefaut);
 
@@ -89,14 +99,13 @@ namespace CiteU.Vues
                     }
                 }
 
-                MessageBox.Show("Vous venez d'importer 3 nouveaux etudiants ", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Vous venez d'importer 4 nouveaux etudiants ", "Succès", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Erreur lors de l'importation : " + ex.Message, "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)

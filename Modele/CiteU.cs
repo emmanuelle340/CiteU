@@ -16,10 +16,7 @@ namespace CiteU.Modele
         public virtual DbSet<Chambres> Chambres { get; set; }
         public virtual DbSet<Etudiants> Etudiants { get; set; }
         public virtual DbSet<Lits> Lits { get; set; }
-        public virtual DbSet<Paiements> Paiements { get; set; }
         public virtual DbSet<Reservations> Reservations { get; set; }
-
-        
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -65,23 +62,20 @@ namespace CiteU.Modele
                 .Property(e => e.Email)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Paiements>()
-                .Property(e => e.Montant)
-                .HasPrecision(10, 2);
-
-            modelBuilder.Entity<Paiements>()
-                .Property(e => e.Methode_Paiement)
-                .IsUnicode(false);
+            modelBuilder.Entity<Lits>()
+                .HasMany(e => e.Reservations)
+                .WithRequired(e => e.Lits)
+                .HasForeignKey(e => e.Lits_id)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Reservations>()
                 .Property(e => e.Statut_Paiement)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Reservations>()
-                .HasMany(e => e.Lits)
+                .HasMany(e => e.Etudiants)
                 .WithOptional(e => e.Reservations)
                 .HasForeignKey(e => e.Reservations_ID_Reservation);
-
 
             modelBuilder.Entity<Batiments>()
                 .HasMany(e => e.Chambres)
@@ -94,6 +88,7 @@ namespace CiteU.Modele
                 .WithRequired(e => e.Chambres)
                 .HasForeignKey(e => e.ChambresID_Chambre)
                 .WillCascadeOnDelete(true); // Activation de la suppression en cascade
+
         }
     }
 }

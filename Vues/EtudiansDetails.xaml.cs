@@ -78,13 +78,32 @@ namespace CiteU.Vues
 
                             if (chambresAuNiveauSuivant.Count > 0)
                             {
-                                // Faire quelque chose avec la chambre attribuée (par exemple, affecter à selectedEtudiant)
+                                
                                 Chambres chambreAttribuee = chambresAuNiveauSuivant.First();
-                                // ... faire quelque chose avec la chambre attribuée ...
+                                Lits litAttribue=chambreAttribuee.Lits.First(d => d.Reservations_ID_Reservation==null);
+                                Reservations reservations = new Reservations
+                                {
+                                    ID_Etudiant = selectedEtudiant.ID_Etudiant,
+                                    ID_Chambre = chambreAttribuee.ID_Chambre,
+                                    Date_Debut = DateTime.Now,
+                                    Date_Fin = DateTime.Now.AddMonths(6),
+                                    Statut_Paiement = "Non payé"
+                                  
+                                };
+                                reservations.Lits = litAttribue;
+                                //chambreAttribuee.Batiments.IncrementerNombreVide(1);
+                                reservations.Etudiants.Add(selectedEtudiant);
+                                context.Reservations.Add(reservations); // Mettre à jour l'objet Batiments dans la base de données
+                                context.SaveChanges(); // Enregistrer les modifications dans la base de donnée
+
+                                MessageBox.Show("L'etudiant " + selectedEtudiant.Nom + "a ete attribue a la chambre "+chambreAttribuee.Nom_Chambre+" pour 6mois , il doit maintenant l'a payer ","Attribution chambre",MessageBoxButton.OK,MessageBoxImage.Information);
+
+                                
                             }
                             else
                             {
                                 MessageBox.Show("Il n'y a plus de place handicape dans la CiteU", "ERREUR", MessageBoxButton.OK, MessageBoxImage.Error);
+                                return;
                             }
                         }
                     }

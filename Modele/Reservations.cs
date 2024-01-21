@@ -11,7 +11,7 @@ namespace CiteU.Modele
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Reservations()
         {
-            Lits = new HashSet<Lits>();
+            Etudiants = new HashSet<Etudiants>();
         }
 
         [Key]
@@ -28,9 +28,13 @@ namespace CiteU.Modele
         [StringLength(20)]
         public string Statut_Paiement { get; set; }
 
-        public virtual Etudiants Etudiants { get; set; }
+        public DateTime? Date_Payement { get; set; }
+
+        public int Lits_id { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Lits> Lits { get; set; }
+        public virtual ICollection<Etudiants> Etudiants { get; set; }
+
+        public virtual Lits Lits { get; set; }
     }
 }

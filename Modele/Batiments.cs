@@ -1,4 +1,4 @@
-namespace CiteU.Modele
+ï»¿namespace CiteU.Modele
 {
     using System;
     using System.Collections.Generic;
@@ -29,26 +29,32 @@ namespace CiteU.Modele
 
         public int? Nombre_Etages { get; set; }
 
-        public int? Nombre_max_chambre { get; set; }  // Correction du nom de la propriété
+        public int? Nombre_max_chambre { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Chambres> Chambres { get; set; }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public int NombreChambresVides
         {
             get { return CalculateNombreChambresVides(); }
+            //private set { }
+          
         }
 
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public int NombreChambresOccupees
         {
             get { return CalculateNombreChambresOccupees(); }
+            //private set { }  
         }
+
 
         private int CalculateNombreChambresVides()
         {
-            using (var context = new CiteU()) // Assurez-vous que le contexte est utilisé localement et est correctement disposé
+            using (var context = new CiteU()) // Assurez-vous que le contexte est utilisï¿½ localement et est correctement disposï¿½
             {
-                // Recherche des chambres disponibles pour ce bâtiment
+                // Recherche des chambres disponibles pour ce bï¿½timent
                 int idBatiment = this.ID_Batiment;
                 int chambresVides = context.Chambres.Count(c => c.ID_Batiment == idBatiment && c.Statut == "Disponible");
 
@@ -58,12 +64,14 @@ namespace CiteU.Modele
 
         private int CalculateNombreChambresOccupees()
         {
-            // Calcul du nombre de chambres occupées en soustrayant les chambres vides du nombre total de chambres
-            int nombreMaxChambres = (int)this.Nombre_max_chambre;  // Correction du nom de la propriété
+            // Calcul du nombre de chambres occupï¿½es en soustrayant les chambres vides du nombre total de chambres
+            int nombreMaxChambres = (int)this.Nombre_max_chambre;  // Correction du nom de la propriï¿½tï¿½
             int chambresVides = CalculateNombreChambresVides();
             int chambresOccupees = nombreMaxChambres - chambresVides;
 
             return chambresOccupees;
         }
+
+        
     }
 }

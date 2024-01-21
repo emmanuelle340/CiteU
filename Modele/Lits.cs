@@ -8,6 +8,12 @@ namespace CiteU.Modele
 
     public partial class Lits
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Lits()
+        {
+            Reservations = new HashSet<Reservations>();
+        }
+
         public int id { get; set; }
 
         public int ChambresID_Chambre { get; set; }
@@ -16,6 +22,7 @@ namespace CiteU.Modele
 
         public virtual Chambres Chambres { get; set; }
 
-        public virtual Reservations Reservations { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Reservations> Reservations { get; set; }
     }
 }
