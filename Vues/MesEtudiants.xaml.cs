@@ -43,7 +43,6 @@ namespace CiteU.Vues
             ListOfEtudiants = context.Etudiants.OrderByDescending(e => e.ID_Etudiant).ToList();
         }
 
-
         private void ImporterEtudiant_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -150,7 +149,6 @@ namespace CiteU.Vues
                 // Vous pouvez ajouter du code ici pour traiter le résultat si nécessaire
             }
         }
-
 
     }
 }

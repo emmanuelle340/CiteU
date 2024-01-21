@@ -33,8 +33,7 @@ namespace CiteU.Vues
 
         private void DisplayStudentDetails()
         {
-            using (var context = new CiteUContext())
-            {
+            
                 Etudiants selectedEtudiant = DataContext as Etudiants;
 
                 // Afficher le sexe
@@ -72,16 +71,16 @@ namespace CiteU.Vues
                 {
                     ChambresTextBlock.Text = "Aucune chambre réservée";
                 }
-            }
+            
         }
 
         private void Attribution_Aleatoire_Click(object sender, RoutedEventArgs e)
         {
-            using (var context = new CiteUContext())
+            using (var newcontext = new CiteUContext())
             {
                 Etudiants selectedEtudiant = DataContext as Etudiants;
 
-                var litsNonReserves = context.Lits
+                var litsNonReserves = newcontext.Lits
                     .Where(lit => lit.Reservations_ID_Reservation == null)
                     .ToList();
 
@@ -97,7 +96,7 @@ namespace CiteU.Vues
                 }
 
                 List<Chambres> ToutesChambre = litsNonReserves
-                    .Select(l => context.Chambres.FirstOrDefault(c => c.ID_Chambre == l.ChambresID_Chambre))
+                    .Select(l => newcontext.Chambres.FirstOrDefault(c => c.ID_Chambre == l.ChambresID_Chambre))
                     .ToList();
 
                 if (selectedEtudiant.Handicape == 1)
@@ -150,8 +149,8 @@ namespace CiteU.Vues
                                 reservations.Lits = litAttribue;
                                 //chambreAttribuee.Batiments.IncrementerNombreVide(1);
                                 reservations.Etudiants.Add(selectedEtudiant);
-                                context.Reservations.Add(reservations); // Mettre à jour l'objet Batiments dans la base de données
-                                context.SaveChanges(); // Enregistrer les modifications dans la base de donnée
+                                newcontext.Reservations.Add(reservations); // Mettre à jour l'objet Batiments dans la base de données
+                                newcontext.SaveChanges(); // Enregistrer les modifications dans la base de donnée
 
                                 MessageBox.Show("L'etudiant " + selectedEtudiant.Nom + " a ete attribue a la chambre "+chambreAttribuee.Nom_Chambre+" pour 6mois , il doit maintenant l'a payer ","Attribution chambre",MessageBoxButton.OK,MessageBoxImage.Information);
                                 return;
@@ -181,8 +180,8 @@ namespace CiteU.Vues
                         reservations.Lits = litAttribue;
                         //chambreAttribuee.Batiments.IncrementerNombreVide(1);
                         reservations.Etudiants.Add(selectedEtudiant);
-                        context.Reservations.Add(reservations); // Mettre à jour l'objet Batiments dans la base de données
-                        context.SaveChanges(); // Enregistrer les modifications dans la base de donnée
+                        newcontext.Reservations.Add(reservations); // Mettre à jour l'objet Batiments dans la base de données
+                        newcontext.SaveChanges(); // Enregistrer les modifications dans la base de donnée
 
                         MessageBox.Show("L'etudiant " + selectedEtudiant.Nom + " a ete attribue a la chambre " + chambreAttribuee.Nom_Chambre + " pour 6mois , il doit maintenant la payer ", "Attribution chambre", MessageBoxButton.OK, MessageBoxImage.Information);
                         return;
@@ -215,8 +214,8 @@ namespace CiteU.Vues
                     };
                     reservations.Lits = litAttribue;
                     reservations.Etudiants.Add(selectedEtudiant);
-                    context.Reservations.Add(reservations);
-                    context.SaveChanges();
+                    newcontext.Reservations.Add(reservations);
+                    newcontext.SaveChanges();
 
                     MessageBox.Show("L'étudiante " + selectedEtudiant.Nom + " a été attribuée à la chambre " + chambreAttribuee.Nom_Chambre + " pour 6 mois. Elle doit maintenant payer.", "Attribution chambre", MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
@@ -247,8 +246,8 @@ namespace CiteU.Vues
                     };
                     reservations.Lits = litAttribue;
                     reservations.Etudiants.Add(selectedEtudiant);
-                    context.Reservations.Add(reservations);
-                    context.SaveChanges();
+                    newcontext.Reservations.Add(reservations);
+                    newcontext.SaveChanges();
 
                     MessageBox.Show("L'étudiant " + selectedEtudiant.Nom + " a été attribué à la chambre " + chambreAttribuee.Nom_Chambre + " pour 6 mois. Il doit maintenant payer.", "Attribution chambre", MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
