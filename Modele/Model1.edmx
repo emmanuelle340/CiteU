@@ -4,146 +4,129 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="CiteUModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityContainer Name="CiteUModelStoreContainer">
-    <EntitySet Name="Batiments" EntityType="CiteUModel.Store.Batiments" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Chambres" EntityType="CiteUModel.Store.Chambres" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Etudiants" EntityType="CiteUModel.Store.Etudiants" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Lits" EntityType="CiteUModel.Store.Lits" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Reservations" EntityType="CiteUModel.Store.Reservations" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="FK__Chambres__ID_Bat__398D8EEE" Association="CiteUModel.Store.FK__Chambres__ID_Bat__398D8EEE">
-      <End Role="Batiments" EntitySet="Batiments" />
-      <End Role="Chambres" EntitySet="Chambres" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ChambresLits" Association="CiteUModel.Store.FK_ChambresLits">
-      <End Role="Chambres" EntitySet="Chambres" />
-      <End Role="Lits" EntitySet="Lits" />
-    </AssociationSet>
-    <AssociationSet Name="FK_EtudiantsReservations" Association="CiteUModel.Store.FK_EtudiantsReservations">
-      <End Role="Reservations" EntitySet="Reservations" />
-      <End Role="Etudiants" EntitySet="Etudiants" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ReservationsLits" Association="CiteUModel.Store.FK_ReservationsLits">
-      <End Role="Lits" EntitySet="Lits" />
-      <End Role="Reservations" EntitySet="Reservations" />
-    </AssociationSet>
-  </EntityContainer>
-  <EntityType Name="Batiments">
-    <Key>
-      <PropertyRef Name="ID_Batiment" />
-    </Key>
-    <Property Name="ID_Batiment" Type="int" Nullable="false" />
-    <Property Name="Nom_Batiment" Type="varchar" Nullable="true" MaxLength="100" />
-    <Property Name="Adresse_Batiment" Type="varchar" Nullable="true" MaxLength="255" />
-    <Property Name="Description_Batiment" Type="varchar(max)" Nullable="true" />
-    <Property Name="Nombre_Etages" Type="int" Nullable="true" />
-    <Property Name="Nombre_max_chambre" Type="int" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Chambres">
-    <Key>
-      <PropertyRef Name="ID_Chambre" />
-    </Key>
-    <Property Name="ID_Chambre" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ID_Batiment" Type="int" Nullable="true" />
-    <Property Name="Nom_Chambre" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="Numero_Batiment" Type="int" Nullable="true" />
-    <Property Name="Capacite" Type="int" Nullable="true" />
-    <Property Name="Etage" Type="int" Nullable="true" />
-    <Property Name="Statut" Type="varchar" Nullable="true" MaxLength="20" />
-    <Property Name="Numero_Chambre" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Etudiants">
-    <Key>
-      <PropertyRef Name="ID_Etudiant" />
-    </Key>
-    <Property Name="ID_Etudiant" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Nom" Type="varchar" Nullable="true" MaxLength="50" />
-    <Property Name="Prenom" Type="varchar" Nullable="true" MaxLength="50" />
-    <Property Name="Date_Naissance" Type="datetime" Nullable="true" />
-    <Property Name="Sexe" Type="char" Nullable="true" MaxLength="1" />
-    <Property Name="Telephone" Type="varchar" Nullable="true" MaxLength="15" />
-    <Property Name="Email" Type="varchar" Nullable="true" MaxLength="50" />
-    <Property Name="Handicape" Type="int" Nullable="true" />
-    <Property Name="Reservations_ID_Reservation" Type="int" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Lits">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ChambresID_Chambre" Type="int" Nullable="false" />
-    <Property Name="Reservations_ID_Reservation" Type="int" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Reservations">
-    <Key>
-      <PropertyRef Name="ID_Reservation" />
-    </Key>
-    <Property Name="ID_Reservation" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ID_Etudiant" Type="int" Nullable="true" />
-    <Property Name="ID_Chambre" Type="int" Nullable="true" />
-    <Property Name="Date_Debut" Type="datetime" Nullable="true" />
-    <Property Name="Date_Fin" Type="datetime" Nullable="true" />
-    <Property Name="Statut_Paiement" Type="varchar" Nullable="true" MaxLength="20" />
-    <Property Name="Date_Payement" Type="datetime" Nullable="true" />
-    <Property Name="Lits_id" Type="int" Nullable="false" />
-  </EntityType>
-  <Association Name="FK__Chambres__ID_Bat__398D8EEE">
-    <End Role="Batiments" Type="CiteUModel.Store.Batiments" Multiplicity="0..1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Chambres" Type="CiteUModel.Store.Chambres" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Batiments">
-        <PropertyRef Name="ID_Batiment" />
-      </Principal>
-      <Dependent Role="Chambres">
-        <PropertyRef Name="ID_Batiment" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ChambresLits">
-    <End Role="Chambres" Type="CiteUModel.Store.Chambres" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Lits" Type="CiteUModel.Store.Lits" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Chambres">
-        <PropertyRef Name="ID_Chambre" />
-      </Principal>
-      <Dependent Role="Lits">
-        <PropertyRef Name="ChambresID_Chambre" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_EtudiantsReservations">
-    <End Role="Reservations" Type="CiteUModel.Store.Reservations" Multiplicity="0..1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Etudiants" Type="CiteUModel.Store.Etudiants" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Reservations">
-        <PropertyRef Name="ID_Reservation" />
-      </Principal>
-      <Dependent Role="Etudiants">
-        <PropertyRef Name="Reservations_ID_Reservation" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ReservationsLits">
-    <End Role="Lits" Type="CiteUModel.Store.Lits" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Reservations" Type="CiteUModel.Store.Reservations" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Lits">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Reservations">
-        <PropertyRef Name="Lits_id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-</Schema></edmx:StorageModels>
+      <Schema Namespace="CiteUModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Batiments">
+          <Key>
+            <PropertyRef Name="ID_Batiment" />
+          </Key>
+          <Property Name="ID_Batiment" Type="int" Nullable="false" />
+          <Property Name="Nom_Batiment" Type="varchar" MaxLength="100" />
+          <Property Name="Adresse_Batiment" Type="varchar" MaxLength="255" />
+          <Property Name="Description_Batiment" Type="varchar(max)" />
+          <Property Name="Nombre_Etages" Type="int" />
+          <Property Name="Nombre_max_chambre" Type="int" />
+        </EntityType>
+        <EntityType Name="Chambres">
+          <Key>
+            <PropertyRef Name="ID_Chambre" />
+          </Key>
+          <Property Name="ID_Chambre" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Batiment" Type="int" />
+          <Property Name="Nom_Chambre" Type="nvarchar(max)" />
+          <Property Name="Numero_Batiment" Type="int" />
+          <Property Name="Capacite" Type="int" />
+          <Property Name="Etage" Type="int" />
+          <Property Name="Statut" Type="varchar" MaxLength="20" />
+          <Property Name="Numero_Chambre" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Etudiants">
+          <Key>
+            <PropertyRef Name="ID_Etudiant" />
+          </Key>
+          <Property Name="ID_Etudiant" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="varchar" MaxLength="50" />
+          <Property Name="Prenom" Type="varchar" MaxLength="50" />
+          <Property Name="Date_Naissance" Type="datetime" />
+          <Property Name="Sexe" Type="char" MaxLength="1" />
+          <Property Name="Telephone" Type="varchar" MaxLength="15" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Handicape" Type="int" />
+          <Property Name="Reservations_ID_Reservation" Type="int" />
+        </EntityType>
+        <EntityType Name="Lits">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChambresID_Chambre" Type="int" Nullable="false" />
+          <Property Name="Reservations_ID_Reservation" Type="int" />
+        </EntityType>
+        <EntityType Name="Reservations">
+          <Key>
+            <PropertyRef Name="ID_Reservation" />
+          </Key>
+          <Property Name="ID_Reservation" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Etudiant" Type="int" />
+          <Property Name="ID_Chambre" Type="int" />
+          <Property Name="Date_Debut" Type="datetime" />
+          <Property Name="Date_Fin" Type="datetime" />
+          <Property Name="Statut_Paiement" Type="varchar" MaxLength="20" />
+          <Property Name="Date_Payement" Type="datetime" />
+          <Property Name="Lits_id" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Chambres__ID_Bat__398D8EEE">
+          <End Role="Batiments" Type="Self.Batiments" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Chambres" Type="Self.Chambres" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Batiments">
+              <PropertyRef Name="ID_Batiment" />
+            </Principal>
+            <Dependent Role="Chambres">
+              <PropertyRef Name="ID_Batiment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChambresLits">
+          <End Role="Chambres" Type="Self.Chambres" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Lits" Type="Self.Lits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chambres">
+              <PropertyRef Name="ID_Chambre" />
+            </Principal>
+            <Dependent Role="Lits">
+              <PropertyRef Name="ChambresID_Chambre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReservationsLits">
+          <End Role="Lits" Type="Self.Lits" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Reservations" Type="Self.Reservations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Lits">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reservations">
+              <PropertyRef Name="Lits_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CiteUModelStoreContainer">
+          <EntitySet Name="Batiments" EntityType="Self.Batiments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Chambres" EntityType="Self.Chambres" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Etudiants" EntityType="Self.Etudiants" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lits" EntityType="Self.Lits" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reservations" EntityType="Self.Reservations" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Chambres__ID_Bat__398D8EEE" Association="Self.FK__Chambres__ID_Bat__398D8EEE">
+            <End Role="Batiments" EntitySet="Batiments" />
+            <End Role="Chambres" EntitySet="Chambres" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChambresLits" Association="Self.FK_ChambresLits">
+            <End Role="Chambres" EntitySet="Chambres" />
+            <End Role="Lits" EntitySet="Lits" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReservationsLits" Association="Self.FK_ReservationsLits">
+            <End Role="Lits" EntitySet="Lits" />
+            <End Role="Reservations" EntitySet="Reservations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CiteUModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -181,13 +164,12 @@
           <Property Name="ID_Etudiant" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Prenom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Date_Naissance" Type="DateTime" Precision="3" />
+          <Property Name="Date_Naissance" Type="DateTime" />
           <Property Name="Sexe" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Name="Telephone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Handicape" Type="Int32" />
           <Property Name="Reservations_ID_Reservation" Type="Int32" />
-          <NavigationProperty Name="Reservations" Relationship="Self.FK_EtudiantsReservations" FromRole="Etudiants" ToRole="Reservations" />
         </EntityType>
         <EntityType Name="Lits">
           <Key>
@@ -206,12 +188,11 @@
           <Property Name="ID_Reservation" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ID_Etudiant" Type="Int32" />
           <Property Name="ID_Chambre" Type="Int32" />
-          <Property Name="Date_Debut" Type="DateTime" Precision="3" />
-          <Property Name="Date_Fin" Type="DateTime" Precision="3" />
+          <Property Name="Date_Debut" Type="DateTime" />
+          <Property Name="Date_Fin" Type="DateTime" />
           <Property Name="Statut_Paiement" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Date_Payement" Type="DateTime" Precision="3" />
+          <Property Name="Date_Payement" Type="DateTime" />
           <Property Name="Lits_id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Etudiants" Relationship="Self.FK_EtudiantsReservations" FromRole="Reservations" ToRole="Etudiants" />
           <NavigationProperty Name="Lits" Relationship="Self.FK_ReservationsLits" FromRole="Reservations" ToRole="Lits" />
         </EntityType>
         <Association Name="FK__Chambres__ID_Bat__398D8EEE">
@@ -239,20 +220,6 @@
             </Principal>
             <Dependent Role="Lits">
               <PropertyRef Name="ChambresID_Chambre" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EtudiantsReservations">
-          <End Role="Reservations" Type="Self.Reservations" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Etudiants" Type="Self.Etudiants" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Reservations">
-              <PropertyRef Name="ID_Reservation" />
-            </Principal>
-            <Dependent Role="Etudiants">
-              <PropertyRef Name="Reservations_ID_Reservation" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -284,10 +251,6 @@
             <End Role="Chambres" EntitySet="Chambres" />
             <End Role="Lits" EntitySet="Lits" />
           </AssociationSet>
-          <AssociationSet Name="FK_EtudiantsReservations" Association="Self.FK_EtudiantsReservations">
-            <End Role="Reservations" EntitySet="Reservations" />
-            <End Role="Etudiants" EntitySet="Etudiants" />
-          </AssociationSet>
           <AssociationSet Name="FK_ReservationsLits" Association="Self.FK_ReservationsLits">
             <End Role="Lits" EntitySet="Lits" />
             <End Role="Reservations" EntitySet="Reservations" />
@@ -297,74 +260,75 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="CiteUModelStoreContainer" CdmEntityContainer="CiteUEntities">
-    <EntitySetMapping Name="Batiments">
-      <EntityTypeMapping TypeName="IsTypeOf(CiteUModel.Batiments)">
-        <MappingFragment StoreEntitySet="Batiments">
-          <ScalarProperty Name="ID_Batiment" ColumnName="ID_Batiment" />
-          <ScalarProperty Name="Nom_Batiment" ColumnName="Nom_Batiment" />
-          <ScalarProperty Name="Adresse_Batiment" ColumnName="Adresse_Batiment" />
-          <ScalarProperty Name="Description_Batiment" ColumnName="Description_Batiment" />
-          <ScalarProperty Name="Nombre_Etages" ColumnName="Nombre_Etages" />
-          <ScalarProperty Name="Nombre_max_chambre" ColumnName="Nombre_max_chambre" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Chambres">
-      <EntityTypeMapping TypeName="IsTypeOf(CiteUModel.Chambres)">
-        <MappingFragment StoreEntitySet="Chambres">
-          <ScalarProperty Name="ID_Chambre" ColumnName="ID_Chambre" />
-          <ScalarProperty Name="ID_Batiment" ColumnName="ID_Batiment" />
-          <ScalarProperty Name="Nom_Chambre" ColumnName="Nom_Chambre" />
-          <ScalarProperty Name="Numero_Batiment" ColumnName="Numero_Batiment" />
-          <ScalarProperty Name="Capacite" ColumnName="Capacite" />
-          <ScalarProperty Name="Etage" ColumnName="Etage" />
-          <ScalarProperty Name="Statut" ColumnName="Statut" />
-          <ScalarProperty Name="Numero_Chambre" ColumnName="Numero_Chambre" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Etudiants">
-      <EntityTypeMapping TypeName="IsTypeOf(CiteUModel.Etudiants)">
-        <MappingFragment StoreEntitySet="Etudiants">
-          <ScalarProperty Name="ID_Etudiant" ColumnName="ID_Etudiant" />
-          <ScalarProperty Name="Nom" ColumnName="Nom" />
-          <ScalarProperty Name="Prenom" ColumnName="Prenom" />
-          <ScalarProperty Name="Date_Naissance" ColumnName="Date_Naissance" />
-          <ScalarProperty Name="Sexe" ColumnName="Sexe" />
-          <ScalarProperty Name="Telephone" ColumnName="Telephone" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="Handicape" ColumnName="Handicape" />
-          <ScalarProperty Name="Reservations_ID_Reservation" ColumnName="Reservations_ID_Reservation" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Lits">
-      <EntityTypeMapping TypeName="IsTypeOf(CiteUModel.Lits)">
-        <MappingFragment StoreEntitySet="Lits">
-          <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="ChambresID_Chambre" ColumnName="ChambresID_Chambre" />
-          <ScalarProperty Name="Reservations_ID_Reservation" ColumnName="Reservations_ID_Reservation" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Reservations">
-      <EntityTypeMapping TypeName="IsTypeOf(CiteUModel.Reservations)">
-        <MappingFragment StoreEntitySet="Reservations">
-          <ScalarProperty Name="ID_Reservation" ColumnName="ID_Reservation" />
-          <ScalarProperty Name="ID_Etudiant" ColumnName="ID_Etudiant" />
-          <ScalarProperty Name="ID_Chambre" ColumnName="ID_Chambre" />
-          <ScalarProperty Name="Date_Debut" ColumnName="Date_Debut" />
-          <ScalarProperty Name="Date_Fin" ColumnName="Date_Fin" />
-          <ScalarProperty Name="Statut_Paiement" ColumnName="Statut_Paiement" />
-          <ScalarProperty Name="Date_Payement" ColumnName="Date_Payement" />
-          <ScalarProperty Name="Lits_id" ColumnName="Lits_id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-  </EntityContainerMapping>
-</Mapping></edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CiteUModelStoreContainer" CdmEntityContainer="CiteUEntities">
+          <EntitySetMapping Name="Batiments">
+            <EntityTypeMapping TypeName="CiteUModel.Batiments">
+              <MappingFragment StoreEntitySet="Batiments">
+                <ScalarProperty Name="ID_Batiment" ColumnName="ID_Batiment" />
+                <ScalarProperty Name="Nom_Batiment" ColumnName="Nom_Batiment" />
+                <ScalarProperty Name="Adresse_Batiment" ColumnName="Adresse_Batiment" />
+                <ScalarProperty Name="Description_Batiment" ColumnName="Description_Batiment" />
+                <ScalarProperty Name="Nombre_Etages" ColumnName="Nombre_Etages" />
+                <ScalarProperty Name="Nombre_max_chambre" ColumnName="Nombre_max_chambre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Chambres">
+            <EntityTypeMapping TypeName="CiteUModel.Chambres">
+              <MappingFragment StoreEntitySet="Chambres">
+                <ScalarProperty Name="ID_Chambre" ColumnName="ID_Chambre" />
+                <ScalarProperty Name="ID_Batiment" ColumnName="ID_Batiment" />
+                <ScalarProperty Name="Nom_Chambre" ColumnName="Nom_Chambre" />
+                <ScalarProperty Name="Numero_Batiment" ColumnName="Numero_Batiment" />
+                <ScalarProperty Name="Capacite" ColumnName="Capacite" />
+                <ScalarProperty Name="Etage" ColumnName="Etage" />
+                <ScalarProperty Name="Statut" ColumnName="Statut" />
+                <ScalarProperty Name="Numero_Chambre" ColumnName="Numero_Chambre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Etudiants">
+            <EntityTypeMapping TypeName="CiteUModel.Etudiants">
+              <MappingFragment StoreEntitySet="Etudiants">
+                <ScalarProperty Name="ID_Etudiant" ColumnName="ID_Etudiant" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="Prenom" ColumnName="Prenom" />
+                <ScalarProperty Name="Date_Naissance" ColumnName="Date_Naissance" />
+                <ScalarProperty Name="Sexe" ColumnName="Sexe" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Handicape" ColumnName="Handicape" />
+                <ScalarProperty Name="Reservations_ID_Reservation" ColumnName="Reservations_ID_Reservation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lits">
+            <EntityTypeMapping TypeName="CiteUModel.Lits">
+              <MappingFragment StoreEntitySet="Lits">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="ChambresID_Chambre" ColumnName="ChambresID_Chambre" />
+                <ScalarProperty Name="Reservations_ID_Reservation" ColumnName="Reservations_ID_Reservation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reservations">
+            <EntityTypeMapping TypeName="CiteUModel.Reservations">
+              <MappingFragment StoreEntitySet="Reservations">
+                <ScalarProperty Name="ID_Reservation" ColumnName="ID_Reservation" />
+                <ScalarProperty Name="ID_Etudiant" ColumnName="ID_Etudiant" />
+                <ScalarProperty Name="ID_Chambre" ColumnName="ID_Chambre" />
+                <ScalarProperty Name="Date_Debut" ColumnName="Date_Debut" />
+                <ScalarProperty Name="Date_Fin" ColumnName="Date_Fin" />
+                <ScalarProperty Name="Statut_Paiement" ColumnName="Statut_Paiement" />
+                <ScalarProperty Name="Date_Payement" ColumnName="Date_Payement" />
+                <ScalarProperty Name="Lits_id" ColumnName="Lits_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -378,8 +342,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="False" />
-        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->

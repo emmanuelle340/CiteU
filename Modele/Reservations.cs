@@ -8,12 +8,6 @@ namespace CiteU.Modele
 
     public partial class Reservations
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Reservations()
-        {
-            Etudiants = new HashSet<Etudiants>();
-        }
-
         [Key]
         public int ID_Reservation { get; set; }
 
@@ -31,9 +25,6 @@ namespace CiteU.Modele
         public DateTime? Date_Payement { get; set; }
 
         public int Lits_id { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Etudiants> Etudiants { get; set; }
 
         public virtual Lits Lits { get; set; }
     }

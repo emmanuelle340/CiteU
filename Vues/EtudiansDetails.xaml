@@ -29,8 +29,22 @@
                 </Button>
             </Border>
 
+			<Border BorderThickness="1" BorderBrush="#3C4048" Background="#3C4048" CornerRadius="100" Width="30" Height="30" Margin="10,0,0,0">
+				<Button  x:Name="Attribution" Click="Attribution_Click" Background="Transparent" BorderThickness="0" BorderBrush="White"   Height="28" VerticalAlignment="Top"
+            ToolTip="Attribuer personnellement une chambre">
+					<fa:ImageAwesome Icon="ArrowRight" Width="10" Height="10" Foreground="White" Margin="5"/>
+				</Button>
+			</Border>
 
-        </StackPanel>
+			<Border BorderThickness="1"  BorderBrush="#3C4048" Background="#3C4048" CornerRadius="100" Width="30" Height="30" Margin="10,0,0,0">
+				<Button x:Name="Supprimer" Background="Transparent" BorderThickness="0" BorderBrush="White" Click="Supprimer_Click" Height="28" VerticalAlignment="Top"
+            ToolTip="Supprimer">
+					<fa:ImageAwesome Icon="Trash" Width="10" Height="10" Foreground="White" Margin="5"/>
+				</Button>
+			</Border>
+
+
+		</StackPanel>
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <TextBlock Text="{Binding Nom, StringFormat={} Nom de l\'étudiant : {0}}" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>

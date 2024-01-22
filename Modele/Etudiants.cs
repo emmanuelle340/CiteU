@@ -31,7 +31,5 @@ namespace CiteU.Modele
         public int? Handicape { get; set; }
 
         public int? Reservations_ID_Reservation { get; set; }
-
-        public virtual Reservations Reservations { get; set; }
     }
 }

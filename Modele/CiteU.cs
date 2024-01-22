@@ -70,12 +70,6 @@ namespace CiteU.Modele
             modelBuilder.Entity<Reservations>()
                 .Property(e => e.Statut_Paiement)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<Reservations>()
-                .HasMany(e => e.Etudiants)
-                .WithOptional(e => e.Reservations)
-                .HasForeignKey(e => e.Reservations_ID_Reservation)
-                .WillCascadeOnDelete();
         }
     }
 }

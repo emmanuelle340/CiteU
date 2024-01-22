@@ -71,6 +71,5 @@ namespace CiteU.Modele
 
             return chambresOccupees;
         }
-
     }
 }
