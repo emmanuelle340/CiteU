@@ -191,10 +191,11 @@ namespace CiteU.Vues
 
                                 // Mettre à jour la propriété Reservation_ID_Reservation du lit
                                 string updateQuery = $"UPDATE Etudiants SET Reservations_ID_Reservation = {nouvelleReservationId} WHERE ID_Etudiant = {selectedEtudiant.ID_Etudiant}";
-
+                                string req=$"UPDATE Lits SET Reservations_ID_Reservation={nouvelleReservationId} WHERE id ={litAttribue.id}";
                                 // Exécuter la requête SQL
-                                newcontext.Database.ExecuteSqlCommand(updateQuery);
-                                newcontext.SaveChanges(); // Enregistrer les modifications dans la base de donnée
+                                    newcontext.Database.ExecuteSqlCommand(updateQuery);
+                                    newcontext.Database.ExecuteSqlCommand(req);
+                                    newcontext.SaveChanges(); // Enregistrer les modifications dans la base de donnée
 
                                 // Exécuter la requête SQL
                                 newcontext.Database.ExecuteSqlCommand(updateQuery);
@@ -250,10 +251,12 @@ namespace CiteU.Vues
                         // Mettre à jour la propriété Reservation_ID_Reservation du lit
                         string updateQuery = $"UPDATE Etudiants SET Reservations_ID_Reservation = {nouvelleReservationId} WHERE ID_Etudiant = {selectedEtudiant.ID_Etudiant}";
 
-                        // Exécuter la requête SQL
-                        newcontext.Database.ExecuteSqlCommand(updateQuery);
+                            string req = $"UPDATE Lits SET Reservations_ID_Reservation={nouvelleReservationId} WHERE id ={litAttribue.id}";
+                            // Exécuter la requête SQL
+                            newcontext.Database.ExecuteSqlCommand(updateQuery);
+                            newcontext.Database.ExecuteSqlCommand(req);
 
-                        MessageBox.Show("L'etudiant " + selectedEtudiant.Nom + " a ete attribue a la chambre " + chambreAttribuee.Nom_Chambre + " pour 6mois , il doit maintenant la payer ", "Attribution chambre", MessageBoxButton.OK, MessageBoxImage.Information);
+                            MessageBox.Show("L'etudiant " + selectedEtudiant.Nom + " a ete attribue a la chambre " + chambreAttribuee.Nom_Chambre + " pour 6mois , il doit maintenant la payer ", "Attribution chambre", MessageBoxButton.OK, MessageBoxImage.Information);
                         return;
                     }
                 }
@@ -303,10 +306,12 @@ namespace CiteU.Vues
                     // Mettre à jour la propriété Reservation_ID_Reservation du lit
                     string updateQuery = $"UPDATE Etudiants SET Reservations_ID_Reservation = {nouvelleReservationId} WHERE ID_Etudiant = {selectedEtudiant.ID_Etudiant}";
 
-                    // Exécuter la requête SQL
-                    newcontext.Database.ExecuteSqlCommand(updateQuery);
+                        string req = $"UPDATE Lits SET Reservations_ID_Reservation={nouvelleReservationId} WHERE id ={litAttribue.id}";
+                        // Exécuter la requête SQL
+                        newcontext.Database.ExecuteSqlCommand(updateQuery);
+                        newcontext.Database.ExecuteSqlCommand(req);
 
-                    MessageBox.Show("L'étudiante " + selectedEtudiant.Nom + " a été attribuée à la chambre " + chambreAttribuee.Nom_Chambre + " pour 6 mois. Elle doit maintenant payer.", "Attribution chambre", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("L'étudiante " + selectedEtudiant.Nom + " a été attribuée à la chambre " + chambreAttribuee.Nom_Chambre + " pour 6 mois. Elle doit maintenant payer.", "Attribution chambre", MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
                 }
                 else if (selectedEtudiant.Sexe == "M")
@@ -349,10 +354,12 @@ namespace CiteU.Vues
                     // Mettre à jour la propriété Reservation_ID_Reservation du lit
                     string updateQuery = $"UPDATE Etudiants SET Reservations_ID_Reservation = {nouvelleReservationId} WHERE ID_Etudiant = {selectedEtudiant.ID_Etudiant}";
 
-                    // Exécuter la requête SQL
-                    newcontext.Database.ExecuteSqlCommand(updateQuery);
+                        string req = $"UPDATE Lits SET Reservations_ID_Reservation={nouvelleReservationId} WHERE id ={litAttribue.id}";
+                        // Exécuter la requête SQL
+                        newcontext.Database.ExecuteSqlCommand(updateQuery);
+                        newcontext.Database.ExecuteSqlCommand(req);
 
-                    MessageBox.Show("L'étudiant " + selectedEtudiant.Nom + " a été attribué à la chambre " + chambreAttribuee.Nom_Chambre + " pour 6 mois. Il doit maintenant payer.", "Attribution chambre", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("L'étudiant " + selectedEtudiant.Nom + " a été attribué à la chambre " + chambreAttribuee.Nom_Chambre + " pour 6 mois. Il doit maintenant payer.", "Attribution chambre", MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
                 }
 
@@ -372,8 +379,7 @@ namespace CiteU.Vues
 
         private void Attribution_Click(object sender, RoutedEventArgs e)
         {
-            /*try
-            {*/
+            try { 
             using (var newcontext = new CiteUContext())
             {
                 Etudiants selectedEtudiant = DataContext as Etudiants;
@@ -431,7 +437,6 @@ namespace CiteU.Vues
                         .ToList();
                 }
 
-
                 if (chambresDisponibles.Count == 0)
                 {
                     MessageBox.Show("Aucune chambre disponible pour ce type d'étudiant.", "ERREUR", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -458,39 +463,29 @@ namespace CiteU.Vues
                     // Mettre à jour la base de données avec la nouvelle réservation
                     newcontext.Reservations.Add(nouvelleReservation);
 
-                    // Mettre à jour l'étudiant avec la réservation
-
                     newcontext.SaveChanges();
-                    int derniereReservationId = newcontext.Etudiants
-                                .OrderByDescending(r => r.Reservations_ID_Reservation)
-                                .Select(r => (int)r.Reservations_ID_Reservation)
-                                .DefaultIfEmpty(0)
-                                .First();// Récupérer la dernière valeur d'ID de réservation avec une valeur par défaut de 0
 
-                    // Incrémenter la valeur de l'ID de réservation
-                    int nouvelleReservationId = derniereReservationId + 1;
+                    // Mettre à jour la propriété Reservation_ID_Reservation de l'étudiant
+                    selectedEtudiant.Reservations_ID_Reservation = nouvelleReservation.ID_Reservation;
+                    newcontext.SaveChanges();
 
-                    // Mettre à jour la propriété Reservation_ID_Reservation du lit
-                    string updateQuery = $"UPDATE Etudiants SET Reservations_ID_Reservation = {nouvelleReservationId} WHERE ID_Etudiant = {selectedEtudiant.ID_Etudiant}";
-
-                    // Exécuter la requête SQL
-                    newcontext.Database.ExecuteSqlCommand(updateQuery);
-
-
+                    // Mettre à jour la propriété ID_Reservations du lit
+                    var litAttribue = litsNonReserves.FirstOrDefault(lit => lit.Chambres.ID_Chambre == chambreChoisie.ID_Chambre);
+                    if (litAttribue != null)
+                    {
+                        litAttribue.Reservations_ID_Reservation = nouvelleReservation.ID_Reservation;
+                        newcontext.SaveChanges();
+                    }
 
                     MessageBox.Show("L'étudiant " + selectedEtudiant.Nom + " a été attribué à la chambre " + chambreChoisie.Nom_Chambre, "Attribution de chambre", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
-            /*}
-
-        
-            catch (DbUpdateException ex)
-            {
-                // Afficher les détails de l'exception
-                MessageBox.Show("Erreur lors de l'attribution de chambre : " + ex.InnerException?.Message, "ERREUR", MessageBoxButton.OK, MessageBoxImage.Error);
-            }*/
-
         }
+    catch (Exception ex)
+    {
+        MessageBox.Show("Une erreur s'est produite : " + ex.Message, "ERREUR", MessageBoxButton.OK, MessageBoxImage.Error);
+    }
+}
 
         private void Supprimer_Click(object sender, RoutedEventArgs e)
         {
