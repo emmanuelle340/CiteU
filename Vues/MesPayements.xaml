@@ -19,27 +19,32 @@
             <TextBox Text="Rechercher..." Width="280" Height="30" VerticalAlignment="Center" Margin="0 " FontStyle="Italic"/>
             <Button Content="Rechercher" Width="76" Height="30" VerticalAlignment="Center" Margin="20 0" Background="White"/>
         </StackPanel>
-
-        
+		
         <ScrollViewer Grid.Row="3">
             <!-- Liste des bâtiments -->
-            <ItemsControl ItemsSource="{Binding ListOfReservation, RelativeSource={RelativeSource AncestorType={x:Type local:MesPayements}}}">
+            <ItemsControl  ItemsSource="{Binding ListOfReservation}">
                 <!-- Se lie à votre liste de bâtiments -->
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderThickness="1" BorderBrush="#3C4048" CornerRadius="10" Margin="20" Height="81" Width="Auto">
-                            <Button Width="Auto" Background="Transparent" BorderThickness="0" BorderBrush="White" >
-                                <StackPanel Width="450">
-                                    <DockPanel Width="440">
-                                        <TextBlock Text="{Binding ID_Etudiant, StringFormat={} Batiment {0}}" FontSize="15" Width="Auto" FontWeight="Bold" />
+                        <Border BorderThickness="1" BorderBrush="#3C4048" CornerRadius="10" Margin="20" Height="Auto" Width="400">
+                            <Button Width="440" x:Name="Clickmoi" Background="Transparent" BorderThickness="0" BorderBrush="White" >
+                                <StackPanel Width="400">
+                                    
+                                        <TextBlock Text="{Binding NomEtudiant, StringFormat={} Payement de:  {0}}" FontSize="15" Width="Auto" FontWeight="Bold" />
+										<TextBlock Text="Montant: XXXXFCFA" Width="288" TextAlignment="Right" Margin="0 0" />
 
-                                        <TextBlock Text="{Binding Nombre_max_chambre, StringFormat={}{0}Chambre(s)}" Width="288" TextAlignment="Right" />
-                                    </DockPanel>
-                                    <TextBlock Text="{Binding NombreChambresVides, StringFormat= {}{0} chambres vides}" Width="288" TextAlignment="Left" HorizontalAlignment="Left" Margin="0 0" />
-                                    <TextBlock Text="{Binding NombreChambresOccupees, StringFormat= {}{0} chambres occupées}" Width="288" TextAlignment="Left" HorizontalAlignment="Left" Margin="0" />
-                                    <DockPanel Width="440">
-                                        <TextBlock Text="{Binding Nombre_Etages, StringFormat= {}{0}étages}" FontWeight="Bold" TextAlignment="Right" Margin="0 0 30 0" />
-                                    </DockPanel>
+										
+                                    <TextBlock Text="{Binding Statut_Paiement, StringFormat= {}Statut:{0} }" Width="288" TextAlignment="Left" HorizontalAlignment="Left" Margin="0" />
+									<TextBlock Text="{Binding NomChambre, StringFormat={}pour la chambre: {0}}" Width="288" TextAlignment="Left" HorizontalAlignment="Left"  />
+
+									
+										
+										<TextBlock Text="" FontWeight="Bold" TextAlignment="Right" Margin="0 0 30 0" />
+										<TextBlock Text="{Binding Date_Debut, StringFormat= {}De: {0}}" FontWeight="Bold" TextAlignment="Right" Margin="0 0 2 0" />
+
+										<TextBlock Text="{Binding Date_Fin, StringFormat= {} a {0}}" FontWeight="Bold" TextAlignment="Right" Margin="0 0 3 0" />
+
+								
                                 </StackPanel>
                             </Button>
                         </Border>

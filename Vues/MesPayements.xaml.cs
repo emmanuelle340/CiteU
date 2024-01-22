@@ -3,59 +3,97 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using CiteUContext = CiteU.Modele.CiteU;
 
 namespace CiteU.Vues
 {
-    /// <summary>
-    /// Logique d'interaction pour MesPayements.xaml
-    /// </summary>
     public partial class MesPayements : UserControl
     {
-        /*public ObservableCollection<Reservations> ListOfReservation
+        public ObservableCollection<AutresInfo> ListOfReservation { get; set; }
+
+        public class AutresInfo
         {
-            get { return (ObservableCollection<Reservations>)GetValue(ListOfReservationProperty); }
-            set { SetValue(ListOfReservationProperty, value); }
+            public int ID_Reservation { get; set; }
+            public int? ID_Etudiant { get; set; }
+            public int? ID_Chambre { get; set; }
+            public DateTime? Date_Debut { get; set; }
+            public DateTime? Date_Fin { get; set; }
+            public DateTime? Date_Payement { get; set; }
+
+            public string Statut_Paiement { get; set; }
+            
+            public int Lits_id { get; set; }
+            public string NomChambre { get; set; }
+            public string NomEtudiant { get; set; }
+            // Ajoutez d'autres propriétés au besoin...
+
+            public AutresInfo(int idReservation, int? idEtudiant, int? idChambre, DateTime? dateDebut, DateTime? dateFin, string statutPaiement, DateTime? datePayement, int litsId, string nomChambre, string nomEtudiant)
+            {
+                ID_Reservation = idReservation;
+                ID_Etudiant = idEtudiant;
+                ID_Chambre = idChambre;
+                Date_Debut = dateDebut?.Date;
+                Date_Fin = dateFin?.Date;
+                Date_Payement = datePayement?.Date;
+                Statut_Paiement = statutPaiement;
+                
+                Lits_id = litsId;
+                NomChambre = nomChambre;
+                NomEtudiant = nomEtudiant;
+            }
         }
 
-        public static readonly DependencyProperty ListDeChambreProperty =
-            DependencyProperty.Register(" ListOfReservation", typeof(ObservableCollection<Reservations>), typeof(MesPayements));
-*/
-         
         public MesPayements()
         {
             InitializeComponent();
-            // Initialiser la liste des bâtiments lors de la création de la classe
-            //ListOfReservation = new ObservableCollection<Reservations>();
-            //ListOfReservation.CollectionChanged += (s, e) => { /* Mettre à jour l'interface utilisateur ici */ };
-
-            
-
-            //DataContext = ListOfReservation;
+            ListOfReservation = new ObservableCollection<AutresInfo>();
+            LoadReservationsFromDatabase();
+            DataContext = this; // Définissez le DataContext sur votre UserControl
         }
 
-        /*public void UpdateListOfReservation()
+        private void LoadReservationsFromDatabase()
         {
-            using(var context= new CiteUContext())
+            // Utilisez votre contexte de base de données (CiteUContext) pour récupérer toutes les réservations.
+            using (var context = new CiteUContext())
             {
-                ListOfReservation.Clear();
-                foreach (var reservation in context.Reservations.ToList())
+                var reservations = context.Reservations.ToList();
+
+                // Ajoutez les réservations à ListOfReservation
+                foreach (var reservation in reservations)
                 {
-                    ListOfReservation.Add(reservation);
+                    // Récupérez les informations de l'étudiant en fonction de l'ID de l'étudiant associé à la réservation
+                    var etudiantInfo = context.Etudiants
+                        .Where(e => e.ID_Etudiant == reservation.ID_Etudiant)
+                        .Select(e => new { NomEtudiant = e.Nom })
+                        .FirstOrDefault();
+
+                    // Récupérez les informations supplémentaires (nom de la chambre) en fonction de l'ID de réservation
+                    var chambreInfo = context.Lits
+                        .Where(l => l.Reservations_ID_Reservation == reservation.ID_Reservation)
+                        .Select(l => new { NomChambre = l.Chambres.Nom_Chambre })
+                        .FirstOrDefault();
+
+                    // Créez un objet AutresInfo avec les informations récupérées
+                    if (etudiantInfo != null && chambreInfo != null)
+                    {
+                        var autresInfo = new AutresInfo(
+                            reservation.ID_Reservation,
+                            reservation.ID_Etudiant,
+                            reservation.ID_Chambre,
+                            reservation.Date_Debut,
+                            reservation.Date_Fin,
+                            reservation.Statut_Paiement,
+                            reservation.Date_Payement,
+                            reservation.Lits_id,
+                            chambreInfo.NomChambre,
+                            etudiantInfo.NomEtudiant
+                        );
+                        ListOfReservation.Add(autresInfo);
+                    }
                 }
-                MessageBox.Show(ListOfReservation[0].Date_Debut.ToString());
             }
-        }*/
+        }
     }
 }
+
