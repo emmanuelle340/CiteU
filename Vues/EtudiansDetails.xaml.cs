@@ -18,6 +18,7 @@ using CiteUContext = CiteU.Modele.CiteU;
 using System.Data.Entity;
 using System.Runtime.Remoting.Contexts;
 using System.Data.Entity.Infrastructure;
+using System.Collections.ObjectModel;
 
 namespace CiteU.Vues
 {
@@ -63,30 +64,26 @@ namespace CiteU.Vues
             // Afficher les chambres réservées
             try
             {
-                if (selectedEtudiant.Reservations_ID_Reservation != null)
+                ChambresTextBlock.Text = "Chambre réservée: ";
+                Reservations reservation;
+
+                using (var context = new CiteUContext())
                 {
-                    ChambresTextBlock.Text = "Chambre réservée: ";
-                    Reservations reservation;
+                    var etudiant = context.Reservations.Select(c => c.Etudiants_ID_Etudiant).ToList();
 
-                    using (var context = new CiteUContext())
+                    if (etudiant.Contains(selectedEtudiant.ID_Etudiant))
                     {
-                        reservation = context.Reservations.FirstOrDefault(a => a.ID_Reservation == selectedEtudiant.Reservations_ID_Reservation);
-
-                        if (reservation != null && reservation.Lits != null && reservation.Lits.Chambres != null)
-                        {
-                            ChambresTextBlock.Text = "Chambre " + reservation.Lits.Chambres.Nom_Chambre;
-                        }
-                        else
-                        {
-                            ChambresTextBlock.Text = "Informations sur la chambre non disponibles";
-                        }
+                        reservation = context.Reservations.FirstOrDefault(c => c.Etudiants_ID_Etudiant == selectedEtudiant.ID_Etudiant);
+                        ChambresTextBlock.Text = "Chambre " + reservation.Lits.Chambres.Nom_Chambre;
+                    }
+                    else
+                    {
+                        ChambresTextBlock.Text = "Aucune chambre réservée";
                     }
                 }
-                else
-                {
-                    ChambresTextBlock.Text = "Aucune chambre réservée";
-                }
-            }
+            
+             
+        }
             catch (Exception ex)
             {
                 // Gérer l'exception ici (affichage d'un message, journalisation, etc.)
@@ -113,7 +110,9 @@ namespace CiteU.Vues
                         return;
                     }
 
-                    if (selectedEtudiant.Reservations_ID_Reservation != null)
+                    var etudiant = newcontext.Reservations.Select(c => c.Etudiants_ID_Etudiant).ToList();
+
+                    if (etudiant.Contains(selectedEtudiant.ID_Etudiant))
                     {
                         MessageBox.Show("Cet étudiant possède déjà une chambre", "ERREUR", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
@@ -151,7 +150,7 @@ namespace CiteU.Vues
 
 
                     }
-                    if (selectedEtudiant.Sexe == "F")
+                    else if (selectedEtudiant.Sexe == "F" && selectedEtudiant.Handicape==0)
                     {
                         if (chambresFille.Count <= 0)
                         {
@@ -160,7 +159,7 @@ namespace CiteU.Vues
                         }
                         chambreAttribuee = chambresFille[0];
                     }
-                    if (selectedEtudiant.Sexe == "M")
+                    else if (selectedEtudiant.Sexe == "M" && selectedEtudiant.Handicape == 0)
                     {
                         if (chambresGarcon.Count <= 0)
                         {
@@ -214,8 +213,10 @@ namespace CiteU.Vues
                 using (var newcontext = new CiteUContext())
                 {
                     Etudiants selectedEtudiant = DataContext as Etudiants;
-
-                    if (selectedEtudiant.Reservations_ID_Reservation != null)
+                    
+                    var etudiant= newcontext.Reservations.Select(c=>c.Etudiants_ID_Etudiant).ToList();
+                    
+                    if (etudiant.Contains(selectedEtudiant.ID_Etudiant))
                     {
                         MessageBox.Show("Cet étudiant possède déjà une chambre", "ERREUR", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
@@ -233,7 +234,7 @@ namespace CiteU.Vues
 
                     var chambresDisponibles = litsNonReserves
                         .Select(l => l.Chambres)
-                        .Where(c => selectedEtudiant.Handicape == 1 ? c.Etage == 0 : (selectedEtudiant.Sexe == "F" ? c.Etage % 2 != 0 && c.Etage != 0 : c.Etage % 2 == 0 && c.Etage != 0))
+                        .Where(c => selectedEtudiant.Handicape == 1 ? c.Etage == 0 : (selectedEtudiant.Sexe == "F" ? c.Etage % 2 != 0 && c.Etage != 0 : c.Etage % 2 == 1 && c.Etage != 0))
                         .ToList();
 
                     if (chambresDisponibles.Count == 0)
@@ -247,39 +248,33 @@ namespace CiteU.Vues
                     {
                         var chambreChoisie = choixChambreWindow.ChambreChoisie;
 
-                        using (var transaction = newcontext.Database.BeginTransaction())
+                        using (var context = new CiteUContext())
                         {
                             try
                             {
+                                var litAttribue= context.Lits.FirstOrDefault(c=>c.ChambresID_Chambre==chambreChoisie.ID_Chambre && c.Reservations_ID_Reservation==null );
                                 var nouvelleReservation = new Reservations
                                 {
                                     Etudiants_ID_Etudiant = selectedEtudiant.ID_Etudiant,
+                                    Lits_id =litAttribue.id,
                                     ID_Chambre = chambreChoisie.ID_Chambre,
                                     Date_Debut = DateTime.Now,
                                     Date_Fin = DateTime.Now.AddMonths(6),
                                     Statut_Paiement = "Non payé"
                                 };
-
                                 newcontext.Reservations.Add(nouvelleReservation);
-                                newcontext.SaveChanges();
 
                                 selectedEtudiant.Reservations_ID_Reservation = nouvelleReservation.ID_Reservation;
+
                                 newcontext.SaveChanges();
 
-                                var litAttribue = litsNonReserves.FirstOrDefault(lit => lit.Chambres.ID_Chambre == chambreChoisie.ID_Chambre);
-                                if (litAttribue != null)
-                                {
-                                    litAttribue.Reservations_ID_Reservation = nouvelleReservation.ID_Reservation;
-                                    newcontext.SaveChanges();
-                                }
-
-                                transaction.Commit();
+                               
 
                                 MessageBox.Show($"L'étudiant {selectedEtudiant.Nom} a été attribué à la chambre {chambreChoisie.Nom_Chambre}", "Attribution de chambre", MessageBoxButton.OK, MessageBoxImage.Information);
                             }
                             catch (Exception ex)
                             {
-                                transaction.Rollback();
+                                
                                 MessageBox.Show("Erreur lors de l'attribution de la chambre. Veuillez réessayer.\n" + ex.Message, "ERREUR", MessageBoxButton.OK, MessageBoxImage.Error);
                             }
                         }

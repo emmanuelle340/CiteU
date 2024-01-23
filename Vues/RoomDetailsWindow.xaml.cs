@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Remoting.Contexts;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media.Effects;
 using CiteUContext = CiteU.Modele.CiteU;
@@ -26,7 +27,15 @@ namespace CiteU.Vues
             UpdateChambre(room);
             Occupants = new ObservableCollection<Etudiants>();
             LoadOccupants(); // Méthode pour charger les occupants
-
+            for (int i = 0; i < Occupants.Count; i++)
+            {
+                TextBlock textBlock = new TextBlock();
+                textBlock.Text = "- "+Occupants[i].Nom;
+                textBlock.TextAlignment= TextAlignment.Center;
+                textBlock.FontSize = 14;
+                textBlock.FontWeight = FontWeights.Bold;
+                Occupant.Children.Add(textBlock);
+            }
             DataContext = Room;
             // Centrer la fenêtre à l'écran
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -45,18 +54,14 @@ namespace CiteU.Vues
             using (var context = new CiteUContext())
             {
                 Occupants.Clear();
-
+                var occupants = context.Reservations.Where(c=>c.ID_Chambre==Room.ID_Chambre).Select(c => c.Etudiants_ID_Etudiant).ToList();
                 // Récupérer les étudiants liés aux lits occupés de la chambre
-                var occupants = from lit in context.Lits
-                                join reservation in context.Reservations on lit.Reservations_ID_Reservation equals reservation.ID_Reservation
-                                join etudiant in context.Etudiants on reservation.Etudiants_ID_Etudiant equals etudiant.ID_Etudiant
-                                where lit.ChambresID_Chambre == Room.ID_Chambre
-                                select etudiant;
-
-                foreach (var etudiant in occupants)
+                var etud= context.Etudiants.ToList();
+                foreach (var etudiant in etud)
                 {
-                    Occupants.Add(etudiant);
+                    if(occupants.Contains(etudiant.ID_Etudiant))   Occupants.Add(etudiant);
                 }
+                
             }
         }
 

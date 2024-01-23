@@ -34,7 +34,13 @@ namespace CiteU.Vues
             using (var context = new CiteUContext())
 
                 LoadData();
-            ListDeChambre.CollectionChanged += (s, e) => { };
+            // Utilisez le gestionnaire d'événements CollectionChanged pour détecter les modifications dans la liste de chambres
+            ListDeChambre.CollectionChanged += (s, e) => OnListDeChambreChanged();
+            // Mettre à jour la vue après le chargement des données
+            ChambresView = CollectionViewSource.GetDefaultView(ListDeChambre);
+            OnPropertyChanged(nameof(ListDeChambre));
+            OnPropertyChanged(nameof(ChambresView));
+
             DataContext = this;
             CreateFilterButtons();
         }
@@ -42,6 +48,7 @@ namespace CiteU.Vues
         private void LoadData()
         {
 
+            
             using (var context = new CiteUContext())
             {
 
@@ -53,12 +60,18 @@ namespace CiteU.Vues
                     .OrderBy(letter => letter)
                     .ToList();
             }
-
+            // Mettre à jour la vue après le chargement des données
             ChambresView = CollectionViewSource.GetDefaultView(ListDeChambre);
+            OnPropertyChanged(nameof(ListDeChambre));
+            OnPropertyChanged(nameof(ChambresView));
         }
 
         private void CreateFilterButtons()
         {
+            // Mettre à jour la vue après le chargement des données
+            ChambresView = CollectionViewSource.GetDefaultView(ListDeChambre);
+            OnPropertyChanged(nameof(ListDeChambre));
+            OnPropertyChanged(nameof(ChambresView));
             // Ajouter le bouton "Tout"
             var toutButton = new Button
             {
@@ -95,14 +108,15 @@ namespace CiteU.Vues
 
         private void Lettre_Click(object sender, RoutedEventArgs e, string lettreFiltre)
         {
+            LoadData();
             if (!string.IsNullOrEmpty(lettreFiltre))
             {
                 ChambresView.Filter = c =>
                     ((Chambres)c).Nom_Chambre.StartsWith(lettreFiltre, StringComparison.OrdinalIgnoreCase);
                 ChambresView.Refresh();
             }
-            // Remove the following line, as it resets the filter
-            // LoadData();
+           
+             
         }
 
 
@@ -118,6 +132,12 @@ namespace CiteU.Vues
             roomDetailsWindow.ShowDialog();
             LoadData();
 
+        }
+
+        private void OnListDeChambreChanged()
+        {
+            // Mettez à jour la vue des chambres
+            ChambresView?.Refresh();
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
