@@ -11,8 +11,6 @@ namespace CiteU.Modele
         [Key]
         public int ID_Reservation { get; set; }
 
-        public int? ID_Etudiant { get; set; }
-
         public int? ID_Chambre { get; set; }
 
         public DateTime? Date_Debut { get; set; }
@@ -25,6 +23,10 @@ namespace CiteU.Modele
         public DateTime? Date_Payement { get; set; }
 
         public int Lits_id { get; set; }
+
+        public int Etudiants_ID_Etudiant { get; set; }
+
+        public virtual Etudiants Etudiants { get; set; }
 
         public virtual Lits Lits { get; set; }
     }

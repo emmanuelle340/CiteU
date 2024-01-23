@@ -17,11 +17,16 @@ namespace CiteU.Vues
     {
         // Room object to display the details
         public Chambres Room { get; set; }
+        public ObservableCollection<Etudiants> Occupants { get; set; }
+
 
         public RoomDetailsWindow(Chambres room)
         {
             InitializeComponent();
             UpdateChambre(room);
+            Occupants = new ObservableCollection<Etudiants>();
+            LoadOccupants(); // Méthode pour charger les occupants
+
             DataContext = Room;
             // Centrer la fenêtre à l'écran
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -34,6 +39,27 @@ namespace CiteU.Vues
             // Gérer l'événement Closed de la RoomDetailsWindow
             Closed += RoomDetailsWindow_Closed;
         }
+
+        private void LoadOccupants()
+        {
+            using (var context = new CiteUContext())
+            {
+                Occupants.Clear();
+
+                // Récupérer les étudiants liés aux lits occupés de la chambre
+                var occupants = from lit in context.Lits
+                                join reservation in context.Reservations on lit.Reservations_ID_Reservation equals reservation.ID_Reservation
+                                join etudiant in context.Etudiants on reservation.Etudiants_ID_Etudiant equals etudiant.ID_Etudiant
+                                where lit.ChambresID_Chambre == Room.ID_Chambre
+                                select etudiant;
+
+                foreach (var etudiant in occupants)
+                {
+                    Occupants.Add(etudiant);
+                }
+            }
+        }
+
 
         private void UpdateChambre(Chambres room )
         {

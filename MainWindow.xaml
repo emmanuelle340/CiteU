@@ -57,15 +57,18 @@
             <Border BorderThickness="0,0,0,1" BorderBrush="Gray">
                 <!-- Ajoutez cette ligne pour la bordure en bas -->
                 <WrapPanel Margin="0,10,0,30" Grid.RowSpan="2">
-                    <Image Source="C:\Users\Emma\Pictures\télécharger.jpg" Width="50"></Image>
+                    <Image Source="télécharger.jpg" Width="50"></Image>
                     <Grid Margin="20 0">
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
                         <Label FontWeight="Bold" FontSize="22" Height="38" Margin="0,-1,0,12" Grid.RowSpan="2">Universite de yaounde I</Label>
-                        <Label Grid.Row="1" FontWeight="Light" FontSize="18" Height="38" Margin="-10,10,10,-23">Application de gestion de cite universitaire</Label>
-                    </Grid>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1">
+                            <Label  FontWeight="Light" FontSize="18" Height="38" Margin="-10,10,10,-23">Application de gestion de cite universitaire</Label>
+                           
+                        </StackPanel>
+                         </Grid>
                 </WrapPanel>
             </Border>
 

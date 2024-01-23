@@ -62,6 +62,12 @@ namespace CiteU.Modele
                 .Property(e => e.Email)
                 .IsUnicode(false);
 
+            modelBuilder.Entity<Etudiants>()
+                .HasMany(e => e.Reservations)
+                .WithRequired(e => e.Etudiants)
+                .HasForeignKey(e => e.Etudiants_ID_Etudiant)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Lits>()
                 .HasMany(e => e.Reservations)
                 .WithRequired(e => e.Lits)

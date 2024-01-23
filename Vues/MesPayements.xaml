@@ -20,14 +20,14 @@
             <Button Content="Rechercher" Width="76" Height="30" VerticalAlignment="Center" Margin="20 0" Background="White"/>
         </StackPanel>
 		
-        <ScrollViewer Grid.Row="3">
+        <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Visible" >
             <!-- Liste des bâtiments -->
             <ItemsControl  ItemsSource="{Binding ListOfReservation}">
                 <!-- Se lie à votre liste de bâtiments -->
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border BorderThickness="1" BorderBrush="#3C4048" CornerRadius="10" Margin="20" Height="Auto" Width="400">
-                            <Button Width="440" x:Name="Clickmoi" Background="Transparent" BorderThickness="0" BorderBrush="White" >
+                            <Button Width="440" x:Name="Clickmoi" Background="Transparent" BorderThickness="0" BorderBrush="White" Click="clickmoi_Click" >
                                 <StackPanel Width="400">
                                     
                                         <TextBlock Text="{Binding NomEtudiant, StringFormat={} Payement de:  {0}}" FontSize="15" Width="Auto" FontWeight="Bold" />
