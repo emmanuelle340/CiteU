@@ -17,6 +17,7 @@ namespace CiteU.Modele
         public virtual DbSet<Etudiants> Etudiants { get; set; }
         public virtual DbSet<Lits> Lits { get; set; }
         public virtual DbSet<Reservations> Reservations { get; set; }
+        public virtual DbSet<Trace_ReservationSet> Trace_ReservationSet { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

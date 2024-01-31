@@ -34,6 +34,7 @@ namespace CiteU.Vues
         {
             InitializeComponent();
             LoadEtudiants();
+            MonTotal.Text= ListOfEtudiants.Count.ToString();
             DataContext = this;
         }
 
@@ -149,6 +150,15 @@ namespace CiteU.Vues
                 // Vous pouvez ajouter du code ici pour traiter le résultat si nécessaire
             }
         }
+
+        private void Rafraichir_Click(object sender, RoutedEventArgs e)
+        {
+            // Rechargez les étudiants depuis la base de données
+            LoadEtudiants();
+            MonTotal.Text= string.Empty;
+            MonTotal.Text = ListOfEtudiants.Count.ToString();
+        }
+
 
     }
 }

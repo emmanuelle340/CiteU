@@ -19,22 +19,56 @@ namespace CiteU.Vues
         // Room object to display the details
         public Chambres Room { get; set; }
         public ObservableCollection<Etudiants> Occupants { get; set; }
-
+        public ObservableCollection<Etudiants> Ancien { get; set; }
 
         public RoomDetailsWindow(Chambres room)
         {
             InitializeComponent();
             UpdateChambre(room);
             Occupants = new ObservableCollection<Etudiants>();
+            Ancien = new ObservableCollection<Etudiants>();
             LoadOccupants(); // Méthode pour charger les occupants
-            for (int i = 0; i < Occupants.Count; i++)
+            if (Occupants.Count > 0)
+            {
+                for (int i = 0; i < Occupants.Count; i++)
+                {
+                    TextBlock textBlock = new TextBlock();
+                    textBlock.Text = "- " + Occupants[i].Nom;
+                    textBlock.TextAlignment = TextAlignment.Center;
+                    textBlock.FontSize = 14;
+                    textBlock.FontWeight = FontWeights.Bold;
+                    Occupant.Children.Add(textBlock);
+                }
+            }
+            else
             {
                 TextBlock textBlock = new TextBlock();
-                textBlock.Text = "- "+Occupants[i].Nom;
-                textBlock.TextAlignment= TextAlignment.Center;
+                textBlock.Text = "- " + "Aucun Occupants";
+                textBlock.TextAlignment = TextAlignment.Center;
                 textBlock.FontSize = 14;
                 textBlock.FontWeight = FontWeights.Bold;
                 Occupant.Children.Add(textBlock);
+            }
+            if (Ancien.Count > 0)
+            {
+                for (int i = 0; i < Ancien.Count; i++)
+                {
+                    TextBlock textBlock = new TextBlock();
+                    textBlock.Text = "- " + Ancien[i].Nom;
+                    textBlock.TextAlignment = TextAlignment.Center;
+                    textBlock.FontSize = 14;
+                    textBlock.FontWeight = FontWeights.Bold;
+                    Anciens.Children.Add(textBlock);
+                }
+            }
+            else
+            {
+                TextBlock textBlock = new TextBlock();
+                textBlock.Text = "- " + "Aucun Occupants";
+                textBlock.TextAlignment = TextAlignment.Center;
+                textBlock.FontSize = 14;
+                textBlock.FontWeight = FontWeights.Bold;
+                Anciens.Children.Add(textBlock);
             }
             DataContext = Room;
             // Centrer la fenêtre à l'écran
@@ -51,17 +85,27 @@ namespace CiteU.Vues
 
         private void LoadOccupants()
         {
-            using (var context = new CiteUContext())
+            try
             {
-                Occupants.Clear();
-                var occupants = context.Reservations.Where(c=>c.ID_Chambre==Room.ID_Chambre).Select(c => c.Etudiants_ID_Etudiant).ToList();
-                // Récupérer les étudiants liés aux lits occupés de la chambre
-                var etud= context.Etudiants.ToList();
-                foreach (var etudiant in etud)
+                using (var context = new CiteUContext())
                 {
-                    if(occupants.Contains(etudiant.ID_Etudiant))   Occupants.Add(etudiant);
+                    Occupants.Clear();
+                    Ancien.Clear();
+                    var ancien = context.Trace_ReservationSet.Where(d => d.ID_Chambre == Room.ID_Chambre).Select(d => d.Etudiants_ID_Etudiant).ToList();
+                    var occupants = context.Reservations.Where(c => c.ID_Chambre == Room.ID_Chambre).Select(c => c.Etudiants_ID_Etudiant).ToList();
+                    // Récupérer les étudiants liés aux lits occupés de la chambre
+                    var etud = context.Etudiants.ToList();
+                    foreach (var etudiant in etud)
+                    {
+                        if (occupants.Contains(etudiant.ID_Etudiant)) Occupants.Add(etudiant);
+                        if (ancien.Contains(etudiant.ID_Etudiant)) Ancien.Add(etudiant);
+
+                    }
+
                 }
-                
+            }catch (Exception ex)
+            {
+                MessageBox.Show("l'exception "+ ex.Message+" s'est produite","ERREUR",MessageBoxButton.OK,MessageBoxImage.Error);
             }
         }
 
@@ -242,7 +286,7 @@ namespace CiteU.Vues
                 }
 
                 //if (Room.Capacite == 0) Room.Statut = "Your logic here";
-                if (Room.Statut == "Aucun Lit") Room.Statut = "Disponible";
+                if (Room.Statut == "Aucun Lit" || Room.Statut == "Hors service") Room.Statut = "Disponible";
 
                 // Enregistrer les modifications dans la base de données
                 context.Lits.Add(nouveauLit);
@@ -263,8 +307,6 @@ namespace CiteU.Vues
         }
 
     }
-
-
 
 }
 

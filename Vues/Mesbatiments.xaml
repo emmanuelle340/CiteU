@@ -11,14 +11,16 @@
         <Grid Width="500" Margin="0 20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="120"></RowDefinition>
-                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="40"></RowDefinition>
                 <RowDefinition Height="320"></RowDefinition>
             </Grid.RowDefinitions>
             <TextBlock Text="LES BATIMENTS" FontSize="34" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
             <!-- Barre de recherche -->
-            <StackPanel Orientation="Horizontal" Margin="0 10" Grid.Row="1">
-            <Label  FontWeight="Light"  FontSize="18" FontStyle="Italic" Opacity="0.5" Margin="20 0 0 0">NOTE: l'ajout et la suppression des batiments necessite le redemarrage de l'application</Label>
+            <StackPanel Orientation="Vertical" Margin="0 10" Grid.Row="1">
+            <Label  FontWeight="Light"  FontSize="18" FontStyle="Italic" Opacity="0.5" Content="NOTE: certaines mises a jour necessitent le redemarrage" Width="459"/>
+            <Label  FontWeight="Light"  FontSize="18" FontStyle="Italic" Opacity="0.5" Content=" de l'application" Width="459"/>
+
         </StackPanel>
 
             <Border BorderThickness="1" BorderBrush="#3C4048" Background="#3C4048" CornerRadius="10" Grid.Row="2" HorizontalAlignment="Right" Width="Auto" Height="40">

@@ -42,6 +42,14 @@
                         <fa:ImageAwesome x:Name="IconMesPayements" Icon="CreditCard" Height="15" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#3C4048"/>
                     </Border>
                 </Button>
+
+                <Border  BorderThickness="0.5" BorderBrush="#3C4048" Height="2" Width="30" Margin="0 240 0 0"></Border>
+
+                <Button x:Name="Trace" Width="50" Height="50" Background="Transparent" BorderThickness="0"  Click="Trace_Click" >
+                    <Border x:Name="btnTrace" Width="50" Height="50" Background="Transparent" BorderBrush="White" BorderThickness="2" CornerRadius="25">
+                        <fa:ImageAwesome x:Name="IconTrace" Icon="CreditCardAlt" Height="15" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#3C4048"/>
+                    </Border>
+                </Button>
             </StackPanel>
         </Border>
 
@@ -88,6 +96,7 @@
                         <loca:Mesbatiments x:Name="Mesbatiments" Visibility="Visible"  Width="Auto" Margin="10 0 0 0" />
                         <loca:MesEtudiants x:Name="MesEtudiants" Visibility="Collapsed"  Width="Auto"/>
                         <loca:MesPayements x:Name="MesPayements" Visibility="Collapsed" Width="Auto" Margin="0 2 2 2"/>
+                        <loca:MesTracesReservations x:Name="MesTracesReservations" Visibility="Collapsed" Width="Auto" Margin="0 2 2 2"/>
                     </StackPanel>
 
 

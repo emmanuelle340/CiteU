@@ -106,6 +106,8 @@ namespace CiteU.Vues
             ChambresView.Filter = null;
         }
 
+        
+
         private void Lettre_Click(object sender, RoutedEventArgs e, string lettreFiltre)
         {
             LoadData();
@@ -147,5 +149,33 @@ namespace CiteU.Vues
 
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void Rafraichir_Click_1(object sender, RoutedEventArgs e)
+        {
+            // Charger les données dans la liste de chambres existante
+            LoadData();
+
+            // Mettre à jour la vue des chambres
+            ChambresView.Refresh();
+
+            premieresLettres = new List<string>();
+
+            // Supprimer les anciens boutons de filtre
+            MonStackPanel.Children.Clear();
+            // Recréer les boutons de filtre
+            premieresLettres = ListDeChambre
+                .Select(chambre => chambre.Nom_Chambre.FirstOrDefault().ToString())
+                .Where(premiereLettre => !string.IsNullOrEmpty(premiereLettre))
+                .Distinct()
+                .OrderBy(letter => letter)
+                .ToList();
+
+            CreateFilterButtons();
+
+            // Notifier le changement dans la propriété premieresLettres
+            OnPropertyChanged(nameof(premieresLettres));
+        }
+
+
     }
 }

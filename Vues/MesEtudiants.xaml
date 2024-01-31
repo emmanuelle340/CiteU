@@ -14,12 +14,23 @@
             <Button Content="Rechercher" Width="76" Height="30" VerticalAlignment="Center" Margin="20 0" Background="White"/>
         </StackPanel>
 
-      
+        <Border BorderThickness="1" BorderBrush="#3C4048" Background="#3C4048" CornerRadius="10" Grid.Row="2" HorizontalAlignment="Right" Width="Auto" Height="40" Margin="0 0 210 0">
+
+                <Button x:Name="Rafraichir"  Background="Transparent"  BorderThickness="0" Click="Rafraichir_Click">
+                    <TextBlock Text="rafraichir" Margin="10" Foreground="White" />
+                </Button>
+            </Border>
+        
         <Border BorderThickness="1" BorderBrush="#3C4048" Background="#3C4048" CornerRadius="10" Grid.Row="2" HorizontalAlignment="Right" Width="Auto" Height="40">
+            
             <Button Background="Transparent" BorderThickness="0" BorderBrush="White" Click="ImporterEtudiant_Click">
                 <TextBlock Text="Importer de nouveaux etudiants" Margin="10" Foreground="White" />
             </Button>
         </Border>
+        <Grid Grid.Row="3">
+            <Label FontWeight="Bold" FontSize="14" Content="NOMBRE TOTAL D'ETUDIANTS: "></Label>
+            <TextBlock FontWeight="Bold" FontSize="14" x:Name="MonTotal" HorizontalAlignment="Right"></TextBlock>
+        </Grid>
         <ScrollViewer Grid.Row="4">
             <!-- Liste des étudiants -->
             <ItemsControl ItemsSource="{Binding Path=ListOfEtudiants, RelativeSource={RelativeSource AncestorType={x:Type local:MesEtudiants}}}">

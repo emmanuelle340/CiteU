@@ -112,10 +112,30 @@ namespace CiteU.Vues
 
                     var etudiant = newcontext.Reservations.Select(c => c.Etudiants_ID_Etudiant).ToList();
 
+                    string etat = "Non payé";
                     if (etudiant.Contains(selectedEtudiant.ID_Etudiant))
                     {
-                        MessageBox.Show("Cet étudiant possède déjà une chambre", "ERREUR", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
+                        MessageBoxResult result = MessageBox.Show("Cet etudiant a deja une chambre , voulez vous la changer ?", "Confirmation de suppression", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                        if (result == MessageBoxResult.No)
+                            return;
+
+                        var anciennereser= newcontext.Reservations.FirstOrDefault(c=>c.Etudiants_ID_Etudiant==selectedEtudiant.ID_Etudiant);
+                        etat = anciennereser.Statut_Paiement;
+                       
+                       Lits lits = newcontext.Lits.FirstOrDefault(d => d.Reservations_ID_Reservation == anciennereser.ID_Reservation);
+                        
+                        Lits
+                        lit = new Lits
+                        {
+                          ChambresID_Chambre = (int)anciennereser.ID_Chambre
+                        };
+                        newcontext.Lits.Add(lit);
+                        newcontext.Lits.Remove(lits);
+                        
+                        newcontext.Reservations.Remove(anciennereser);
+                        newcontext.SaveChanges();
+                    
                     }
 
                     List<Chambres> ToutesChambre = litsNonReserves
@@ -177,11 +197,11 @@ namespace CiteU.Vues
                         Etudiants_ID_Etudiant = selectedEtudiant.ID_Etudiant,
                         ID_Chambre = chambreAttribuee.ID_Chambre,
                         Date_Debut = DateTime.Now,
-                        Date_Fin = DateTime.Now.AddMonths(6),
-                        Statut_Paiement = "Non payé"
+                        Date_Fin = DateTime.Now.AddMonths(12),
+                        Statut_Paiement = etat
                     };
                     reservations.Lits = litAttribue;
-
+                    reservations.Lits.Chambres.Statut = "Occupee";
 
                     newcontext.Reservations.Add(reservations);
                     newcontext.SaveChanges();
@@ -190,8 +210,7 @@ namespace CiteU.Vues
                     litAttribue.Reservations_ID_Reservation = reservations.ID_Reservation;
 
                     newcontext.SaveChanges();
-
-                    MessageBox.Show($"L'étudiant {selectedEtudiant.Nom} a été attribué à la chambre {chambreAttribuee.Nom_Chambre} pour 6 mois. Il doit maintenant la payer.", "Attribution chambre", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show($"L'étudiant {selectedEtudiant.Nom} a été attribué à la chambre {chambreAttribuee.Nom_Chambre} pour 1an. Il doit maintenant la payer.", "Attribution chambre", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
             catch (DbUpdateException dbUpdateEx)
@@ -214,13 +233,7 @@ namespace CiteU.Vues
                 {
                     Etudiants selectedEtudiant = DataContext as Etudiants;
                     
-                    var etudiant= newcontext.Reservations.Select(c=>c.Etudiants_ID_Etudiant).ToList();
                     
-                    if (etudiant.Contains(selectedEtudiant.ID_Etudiant))
-                    {
-                        MessageBox.Show("Cet étudiant possède déjà une chambre", "ERREUR", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return;
-                    }
 
                     var litsNonReserves = newcontext.Lits
                         .Where(lit => lit.Reservations_ID_Reservation == null)
@@ -230,6 +243,28 @@ namespace CiteU.Vues
                     {
                         MessageBox.Show("Il n'y a plus de place dans la CiteU", "ERREUR", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
+                    }
+
+                    var etudiant = newcontext.Reservations.Select(c => c.Etudiants_ID_Etudiant).ToList();
+
+                    string etat = "Non payé";
+                    if (etudiant.Contains(selectedEtudiant.ID_Etudiant))
+                    {
+                        MessageBoxResult result = MessageBox.Show("Cet etudiant a deja une chambre , voulez vous la changer ?", "Confirmation de suppression", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                        if (result == MessageBoxResult.No)
+                            return;
+                        
+                        var anciennereser = newcontext.Reservations.FirstOrDefault(c => c.Etudiants_ID_Etudiant == selectedEtudiant.ID_Etudiant);
+                        etat = anciennereser.Statut_Paiement;
+                        var mon= newcontext.Lits.FirstOrDefault(d => d.Reservations_ID_Reservation == anciennereser.ID_Reservation);
+                        mon.Reservations_ID_Reservation = null;
+                        // Marquer la propriété comme modifiée
+                        newcontext.Entry(mon).Property(x => x.Reservations_ID_Reservation).IsModified = true;
+
+                        newcontext.Reservations.Remove(anciennereser);
+                        newcontext.SaveChanges();
+
                     }
 
                     var chambresDisponibles = litsNonReserves
@@ -259,18 +294,19 @@ namespace CiteU.Vues
                                     Lits_id =litAttribue.id,
                                     ID_Chambre = chambreChoisie.ID_Chambre,
                                     Date_Debut = DateTime.Now,
-                                    Date_Fin = DateTime.Now.AddMonths(6),
+                                    Date_Fin = DateTime.Now.AddMonths(12),
                                     Statut_Paiement = "Non payé"
                                 };
                                 newcontext.Reservations.Add(nouvelleReservation);
-
+                                
                                 selectedEtudiant.Reservations_ID_Reservation = nouvelleReservation.ID_Reservation;
+                                nouvelleReservation.Lits.Chambres.Statut = "Occupee";
 
                                 newcontext.SaveChanges();
 
-                               
+                               MesPayements payements = new MesPayements();
 
-                                MessageBox.Show($"L'étudiant {selectedEtudiant.Nom} a été attribué à la chambre {chambreChoisie.Nom_Chambre}", "Attribution de chambre", MessageBoxButton.OK, MessageBoxImage.Information);
+                                MessageBox.Show($"L'étudiant {selectedEtudiant.Nom} a été attribué à la chambre {chambreChoisie.Nom_Chambre} pour 1an", "Attribution de chambre", MessageBoxButton.OK, MessageBoxImage.Information);
                             }
                             catch (Exception ex)
                             {

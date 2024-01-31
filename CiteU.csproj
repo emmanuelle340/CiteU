@@ -26,7 +26,8 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <UpdateUrl>http://localhost/CiteU/</UpdateUrl>
-    <ApplicationRevision>2</ApplicationRevision>
+    <AutorunEnabled>true</AutorunEnabled>
+    <ApplicationRevision>12</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -109,22 +110,8 @@
     <Compile Include="Modele\CiteU.cs" />
     <Compile Include="Modele\Etudiants.cs" />
     <Compile Include="Modele\Lits.cs" />
-    <Compile Include="Modele\Model1.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Modele\Model1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Modele\Model1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Modele\Reservations.cs" />
+    <Compile Include="Modele\Trace_ReservationSet.cs" />
     <Compile Include="Vues\AjoutChambresDialog.xaml.cs">
       <DependentUpon>AjoutChambresDialog.xaml</DependentUpon>
     </Compile>
@@ -140,6 +127,9 @@
     <Compile Include="Vues\EtudiansDetails.xaml.cs">
       <DependentUpon>EtudiansDetails.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vues\InfoTrace.xaml.cs">
+      <DependentUpon>InfoTrace.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vues\Mesbatiments.xaml.cs">
       <DependentUpon>Mesbatiments.xaml</DependentUpon>
     </Compile>
@@ -151,6 +141,9 @@
     </Compile>
     <Compile Include="Vues\MesPayements.xaml.cs">
       <DependentUpon>MesPayements.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vues\MesTracesReservations.xaml.cs">
+      <DependentUpon>MesTracesReservations.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vues\ModifierStatutWindow.xaml.cs">
       <DependentUpon>ModifierStatutWindow.xaml</DependentUpon>
@@ -193,6 +186,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Vues\InfoTrace.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Vues\Mesbatiments.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -206,6 +203,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Vues\MesPayements.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vues\MesTracesReservations.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -242,13 +243,6 @@
     </EmbeddedResource>
     <None Include="CiteU_TemporaryKey.pfx" />
     <None Include="favicon_io\site.webmanifest" />
-    <EntityDeploy Include="Modele\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Modele\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -288,19 +282,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Modele\Model1.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Modele\Model1.edmx.sql" />
-    <Content Include="Modele\Model1.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

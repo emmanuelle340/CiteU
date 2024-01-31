@@ -12,6 +12,8 @@
             <RowDefinition Height="100"></RowDefinition>
             <RowDefinition Height="60"></RowDefinition>
             <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="60"></RowDefinition>
+
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
@@ -22,16 +24,26 @@
             <Button Content="Rechercher" Width="76" Height="30" VerticalAlignment="Center" Margin="20 0" Background="White"/>
         </StackPanel>
 
+        <Grid Grid.Row="3">
+            <Border BorderThickness="1" BorderBrush="#3C4048" Background="#3C4048" CornerRadius="10" HorizontalAlignment="Right" Width="Auto" Height="40">
+
+                <Button x:Name="Rafraichir"  Background="Transparent"  BorderThickness="0" Click="Rafraichir_Click_1">
+                    <TextBlock Text="rafraichir" Margin="10" Foreground="White" />
+                </Button>
+            </Border>
+        </Grid>
+
+
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Grid.Row="2">
             <StackPanel Orientation="Horizontal" Margin="0" x:Name="MonStackPanel"></StackPanel>
         </ScrollViewer>
-
+        
         <!-- <StackPanel Orientation="Horizontal" Margin="0" x:Name="MonStack">
             <CheckBox Content="Disponibles" Checked="Filter_Checked" Unchecked="Filter_Unchecked" Margin="10"/>
             <CheckBox Content="Occupées" Checked="Filter_Checked" Unchecked="Filter_Unchecked" Margin="10"/>
         </StackPanel> -->
 
-        <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Visible">
+        <ScrollViewer Grid.Row="4" VerticalScrollBarVisibility="Visible">
             <ItemsControl ItemsSource="{Binding ListDeChambre, RelativeSource={RelativeSource AncestorType={x:Type local:MesChambres}}}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
