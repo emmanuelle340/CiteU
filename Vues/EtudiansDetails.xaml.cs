@@ -269,7 +269,7 @@ namespace CiteU.Vues
 
                     var chambresDisponibles = litsNonReserves
                         .Select(l => l.Chambres)
-                        .Where(c => selectedEtudiant.Handicape == 1 ? c.Etage == 0 : (selectedEtudiant.Sexe == "F" ? c.Etage % 2 != 0 && c.Etage != 0 : c.Etage % 2 == 1 && c.Etage != 0))
+                        .Where(c => selectedEtudiant.Handicape == 1 ? c.Etage == 0 : (selectedEtudiant.Sexe == "F" ? c.Etage % 2 == 0 && c.Etage != 0 : c.Etage % 2 == 1 && c.Etage != 0))
                         .ToList();
 
                     if (chambresDisponibles.Count == 0)
@@ -299,12 +299,12 @@ namespace CiteU.Vues
                                 };
                                 newcontext.Reservations.Add(nouvelleReservation);
                                 
-                                selectedEtudiant.Reservations_ID_Reservation = nouvelleReservation.ID_Reservation;
+                                
                                 nouvelleReservation.Lits.Chambres.Statut = "Occupee";
 
                                 newcontext.SaveChanges();
 
-                               MesPayements payements = new MesPayements();
+                               
 
                                 MessageBox.Show($"L'étudiant {selectedEtudiant.Nom} a été attribué à la chambre {chambreChoisie.Nom_Chambre} pour 1an", "Attribution de chambre", MessageBoxButton.OK, MessageBoxImage.Information);
                             }

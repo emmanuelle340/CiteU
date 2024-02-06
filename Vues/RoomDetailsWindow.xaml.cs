@@ -109,7 +109,6 @@ namespace CiteU.Vues
             }
         }
 
-
         private void UpdateChambre(Chambres room )
         {
 
@@ -124,10 +123,10 @@ namespace CiteU.Vues
                 int chambreID = Room.ID_Chambre;
 
                 // Recherche du premier lit non réservé dans la chambre
-                Lits litARetirer = context.Lits
+                var litARetirer = context.Lits
                     .FirstOrDefault(lit => lit.ChambresID_Chambre == chambreID && lit.Reservations_ID_Reservation == null);
 
-                if (litARetirer == null)
+                if (litARetirer ==null)
                 {
                     MessageBox.Show("Tous les lits sont occupés ou hors service, vous ne pouvez pas en supprimer un.", "Erreur Suppression Lit", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
